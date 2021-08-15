@@ -45,7 +45,7 @@ Renderer::Renderer()
 	text.setTextFillColor(sf::Color::White);
 	text.setFont(font);
 	text.setString("TextButton");
-	page.addEntity(text);
+	
 
 	button2.setSize({ 80, 40 });
 	button2.setPosition(20, 5);
@@ -61,9 +61,7 @@ Renderer::Renderer()
 	button2.setString("button2");
 	button2.setPosition(120, 5);
 
-	page.addEntity(button);
-	page.addEntity(button2);
-	frame.addEntity(page);
+
 
 	slider.setSize({ 80, 40 });
 	slider.setPosition(300, 5);
@@ -77,7 +75,7 @@ Renderer::Renderer()
 	slider.setCharacterSize(22);
 	slider.setString("Speed");
 	slider.setVariable(val, 3, 200);
-	page.addEntity(slider);
+	
 
 	page.setFillColor(sf::Color(255, 255, 255, 26));
 	page.setMaxSize({ 1000, 1000 });
@@ -147,13 +145,11 @@ Renderer::Renderer()
 	rectB.setPoint(2, { 600, 500 });
 	rectB.setPoint(3, { 300, 500 });
 	rectB.setPosition(10, 10);
-	frame.addEntity(rectB);
 	page2.addEntity(drop);
 
 	rectB.setFillColor(sf::Color::Red);
 	rectB.setSelectionFillColor(sf::Color::Blue);
 
-	page.addEntity(page2);
 	page.setPosition(0, 10);
 
 	page3.setFillColor(sf::Color(255, 255, 255, 78));
@@ -164,14 +160,26 @@ Renderer::Renderer()
 	page3.setScroll(gui::Page::BOTTOM);
 	page3.setHeader(true, true, true);
 
-	page2.addEntity(page3);
 
 	//page.rotate(45);
 	//page2.rotate(-45);
 	//page.scale(1.5, 1.5);
 
-	rectB.actionEvent = gui::Entity::ActionEvent::RELEASE;
+	rectB.actionEvent = gui::Entity::ActionEvent::NONE;
 	rectB.setAction([this] {if (rectB.isSelected())page.setActive(); else page.setInactive(); });
+
+	page.addEntity(text);
+	page.addEntity(button);
+	page.addEntity(button2);
+	page.addEntity(slider);
+	frame.addEntity(page2);
+
+	frame.addEntity(page);
+	frame.removeEntity(page2);
+	page.addEntity(page2);
+
+	frame.addEntity(rectB);
+
 }
 
 Renderer::~Renderer()

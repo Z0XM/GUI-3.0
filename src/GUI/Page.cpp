@@ -303,7 +303,8 @@ Entity* Page::isHit(const sf::Vector2f& point)
 		}
 
 		// else point is in page
-		if (entity == nullptr)entity = this;
+		if (entity == nullptr)
+			entity = this;
 
 		return entity;
 	}
@@ -408,9 +409,12 @@ void Page::limitActiveRegion()
 void Page::setFunctionalParentForSubVariables(Functional* parent)
 {
 	setFunctionalParent(m_header, parent);
-
-	for (int i = 0; i < 4; i++)
-		if (m_connectedScroll[i].isActive())setScroll(ScrollPlacement(i));
+	setFunctionalParent(m_minimise, parent);
+	setFunctionalParent(m_maximise, parent);
+	for (int i = 0; i < 4; i++) {
+		setFunctionalParent(m_connectedScroll[i].m_rect, parent);
+		setFunctionalParent(m_connectedScroll[i].m_bar, parent);
+	}
 }
 
 

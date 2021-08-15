@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <functional>
 #include <vector>
 
@@ -269,7 +269,8 @@ private:
 	bool m_active;											/// < State of the entity
 	Functional* m_functionalParent;							/// < Frame attached to entity, can be nullptr
 
-	static unsigned int item_count;							/// < Strictly increasing count of all constructed entities, Used for generating Ids, makes up for the 24 least significant bits of Id
+	static unsigned int item_count;							/// < Strictly increasing count of all constructed entities, Used for generating Ids, \
+																  makes up for the 24 least significant bits of Id
 };
 
 class Frame : Functional {
@@ -420,44 +421,13 @@ public:
 	// Member Data
 	////////////////////////////////////////////////////////////
 private:
-	sf::RenderWindow* m_window;							  /// < main window of the frame (handles mouse position and rendering)
-	Entity* m_mouseHoveringOn;							  /// < last Entity over which mouse button was
-	Entity *m_clicked;									  /// < last Entity on which mouse button was pressed
-	std::map<unsigned int, Entity*> m_entityMap;          /// < maps gui Ids to their respective entities
-	sf::Vector2f m_lastMousePos;						  /// < last mouse Position on the current window
+	sf::RenderWindow* m_window;											/// < main window of the frame (handles mouse position and rendering)
+	Entity* m_mouseHoveringOn;											/// < last Entity over which mouse button was
+	Entity *m_clicked;													/// < last Entity on which mouse button was pressed
+	sf::Vector2f m_lastMousePos;										/// < last mouse Position on the current window
+	std::unordered_map<unsigned int, Entity*> m_entityMap;				/// < maps gui Ids to their respective entities
 
-	static std::map<std::string, unsigned int> m_nameMap; /// < maps from names to the gui Id of their respective entities, Single Map for all Frame objects
+	static std::unordered_map<std::string, unsigned int> m_nameMap;		/// < maps from names to the gui Id of their respective entities, Single Map for all Frame objects
 };
 
 } // namespace gui
-
-////////////////////////////////////////////////////////////
-/// \class sf::ConvexShape
-/// \ingroup graphics
-///
-/// This class inherits all the functions of sf::Transformable
-/// (position, rotation, scale, bounds, ...) as well as the
-/// functions of sf::Shape (outline, color, texture, ...).
-///
-/// It is important to keep in mind that a convex shape must
-/// always be... convex, otherwise it may not be drawn correctly.
-/// Moreover, the points must be defined in order; using a random
-/// order would result in an incorrect shape.
-///
-/// Usage example:
-/// \code
-/// sf::ConvexShape polygon;
-/// polygon.setPointCount(3);
-/// polygon.setPoint(0, sf::Vector2f(0, 0));
-/// polygon.setPoint(1, sf::Vector2f(0, 10));
-/// polygon.setPoint(2, sf::Vector2f(25, 5));
-/// polygon.setOutlineColor(sf::Color::Red);
-/// polygon.setOutlineThickness(5);
-/// polygon.setPosition(10, 20);
-/// ...
-/// window.draw(polygon);
-/// \endcode
-///
-/// \see sf::Shape, sf::RectangleShape, sf::CircleShape
-///
-////////////////////////////////////////////////////////////

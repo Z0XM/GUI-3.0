@@ -14,6 +14,7 @@ Dropdown::Dropdown(const sf::Vector2f& headerSize):
 	m_page.setFillColor(sf::Color::Transparent);
 
 	m_functional_object = FunctionalObject::DROPDOWN;
+
 }
 Dropdown::Dropdown(const sf::Vector2f& headerSize, float itemHeight, int itemLimit): 
 	Entity(GUI_ID_DROPDOWN)
@@ -223,4 +224,5 @@ void Dropdown::setFunctionalParentForSubVariables(Functional* parent)
 {
 	setFunctionalParent(m_page, this);
 	setFunctionalParent(m_header, this);
+	setFunctionalParent(m_minimise, this);
 }

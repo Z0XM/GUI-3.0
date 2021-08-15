@@ -27,6 +27,7 @@ Entity::Entity(unsigned int class_id)
 	actionEvent = ActionEvent::NONE;
 	m_active = true;
 	m_functionalParent = nullptr;
+	m_baseEntity = nullptr;
 }
 Entity::~Entity()
 {
@@ -88,7 +89,7 @@ void gui::setFunctionalParent(Entity& entity, Functional* parent)
 }
 
 
-std::map<std::string, unsigned int> Frame::m_nameMap;
+std::unordered_map<std::string, unsigned int> Frame::m_nameMap;
 
 Frame::Frame()
 {
