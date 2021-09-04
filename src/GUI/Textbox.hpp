@@ -329,15 +329,15 @@ public:
     float getBoxOutlineThickness() const;
 
     ////////////////////////////////////////////////////////////
-   /// \brief Get the source texture of the shape
-   ///
-   /// If the shape has no source texture, a NULL pointer is returned.
-   /// The returned pointer is const, which means that you can't
-   /// modify the texture when you retrieve it with this function.
-   ///
-   /// \return Pointer to the shape's texture
-   ///
-   ////////////////////////////////////////////////////////////
+    /// \brief Get the source texture of the shape
+    ///
+    /// If the shape has no source texture, a NULL pointer is returned.
+    /// The returned pointer is const, which means that you can't
+    /// modify the texture when you retrieve it with this function.
+    ///
+    /// \return Pointer to the shape's texture
+    ///
+    ////////////////////////////////////////////////////////////
     const sf::Texture* getTexture() const;
 
     ////////////////////////////////////////////////////////////

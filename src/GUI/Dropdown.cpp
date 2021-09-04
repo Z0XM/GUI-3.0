@@ -68,7 +68,7 @@ void Dropdown::setHeaderSize(const sf::Vector2f& headerSize)
 	m_page.setActiveRegion({ m_page.getActiveRegion().left, m_page.getActiveRegion().top, headerSize.x, m_page.getActiveRegion().height });
 	m_page.setPosition(0, headerSize.y);
 }
-void gui::Dropdown::setHeaderColor(const sf::Color& color)
+void Dropdown::setHeaderColor(const sf::Color& color)
 {
 	m_header.setBoxFillColor(color);
 	m_header.setSelectionFillColor(color);
@@ -98,11 +98,11 @@ void Dropdown::setFillColor(sf::Color color)
 {
 	m_page.setFillColor(color);
 }
-sf::Vector2f gui::Dropdown::getMousePosition() const
+sf::Vector2f Dropdown::getMousePosition() const
 {
 	return getInverseTransform().transformPoint(getFunctionalParent()->getMousePosition());
 }
-sf::Vector2f gui::Dropdown::getLastMouseOffset() const
+sf::Vector2f Dropdown::getLastMouseOffset() const
 {
 	sf::Transform transform = getInverseTransform();
 	transform.translate(getPosition());
@@ -167,12 +167,12 @@ void Dropdown::eraseItem(int where)
 	m_page.setActiveRegion({ m_page.getActiveRegion().left, m_page.getActiveRegion().top, m_page.getActiveRegion().width, std::min(m_itemLimit, m_itemCount) * (m_itemSize.y + 10) + 10 });
 	m_page.setScroll(Page::ScrollPlacement::RIGHT);
 }
-void gui::Dropdown::expand()
+void Dropdown::expand()
 {
 	m_page.setActive();
 	m_minimise.setRotation(90);
 }
-void gui::Dropdown::collapse()
+void Dropdown::collapse()
 {
 	m_page.setInactive();
 	m_minimise.setRotation(0);

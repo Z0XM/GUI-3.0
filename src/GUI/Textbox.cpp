@@ -22,17 +22,17 @@ Textbox::~Textbox()
 {
 }
 
-void gui::Textbox::setInputEnabled()
+void Textbox::setInputEnabled()
 {
 	m_input_enabled = true;
 }
 
-void gui::Textbox::setInputDisabled()
+void Textbox::setInputDisabled()
 {
 	m_input_enabled = false;
 }
 
-bool gui::Textbox::isInputEnabled()
+bool Textbox::isInputEnabled()
 {
 	return m_input_enabled;
 }
@@ -83,11 +83,11 @@ void Textbox::setBoxOutlineThickness(float thickness)
 {
 	m_box.setOutlineThickness(thickness);
 }
-void gui::Textbox::setTexture(const sf::Texture* texture, bool resetRect)
+void Textbox::setTexture(const sf::Texture* texture, bool resetRect)
 {
 	m_box.setTexture(texture, resetRect);
 }
-void gui::Textbox::setTextureRect(const sf::IntRect& rect)
+void Textbox::setTextureRect(const sf::IntRect& rect)
 {
 	m_box.setTextureRect(rect);
 }
@@ -99,7 +99,7 @@ void Textbox::setTextOutlineColor(const sf::Color& color)
 {
 	m_text.setOutlineColor(color);
 }
-void gui::Textbox::setTextOutlineThickness(float thickness)
+void Textbox::setTextOutlineThickness(float thickness)
 {
 	m_text.setOutlineThickness(thickness);
 }
@@ -139,11 +139,11 @@ float Textbox::getBoxOutlineThickness() const
 {
 	return m_box.getOutlineThickness();
 }
-const sf::Texture* gui::Textbox::getTexture() const
+const sf::Texture* Textbox::getTexture() const
 {
 	return m_box.getTexture();
 }
-const sf::IntRect& gui::Textbox::getTextureRect() const
+const sf::IntRect& Textbox::getTextureRect() const
 {
 	return m_box.getTextureRect();
 }

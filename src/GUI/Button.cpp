@@ -52,7 +52,7 @@ void Button::setOutlineThickness(float thickness)
 	m_original.outlineThickness = thickness;
 	updateShape();
 }
-void gui::Button::setScale(const sf::Vector2f& scaleFactor)
+void Button::setScale(const sf::Vector2f& scaleFactor)
 {
 	m_original.scaleFactor = scaleFactor;
 	updateShape();
@@ -72,16 +72,32 @@ void Button::setSelectionOutlineThickness(float thickness)
 	m_selected.outlineThickness = thickness;
 	updateShape();
 }
-void gui::Button::setSelectionScale(const sf::Vector2f& scaleFactor)
+void Button::setSelectionScale(const sf::Vector2f& scaleFactor)
 {
 	m_selected.scaleFactor = scaleFactor;
 	updateShape();
 }
-sf::FloatRect gui::Button::getLocalBounds() const
+void Button::setTexture(const sf::Texture* texture, bool resetRect)
+{
+	m_shape.setTexture(texture, resetRect);
+}
+void Button::setTextureRect(const sf::IntRect& rect)
+{
+	m_shape.setTextureRect(rect);
+}
+const sf::Texture* Button::getTexture() const
+{
+	return m_shape.getTexture();
+}
+const sf::IntRect& Button::getTextureRect() const
+{
+	return m_shape.getTextureRect();
+}
+sf::FloatRect Button::getLocalBounds() const
 {
 	return m_shape.getLocalBounds();
 }
-sf::FloatRect gui::Button::getGlobalBounds() const
+sf::FloatRect Button::getGlobalBounds() const
 {
 	return getTransform().transformRect(m_shape.getGlobalBounds());
 }
