@@ -100,6 +100,10 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual void deactivateSelection() override;
 
+	void setInputEnabled() = delete;
+	void setInputDisabled() = delete;
+	bool isInputEnabled() = delete;
+
 private:
 
 	////////////////////////////////////////////////////////////

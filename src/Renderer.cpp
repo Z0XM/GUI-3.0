@@ -116,6 +116,7 @@ Renderer::Renderer()
 	rectB.setPoint(2, { 600, 500 });
 	rectB.setPoint(3, { 300, 500 });
 	rectB.setPosition(10, 10);
+	rectB.setAction([this] {text.isInputEnabled() ? text.setInputDisabled() : text.setInputEnabled(); });
 	page2.addEntity(drop);
 
 	rectB.setFillColor(sf::Color::Red);
@@ -136,8 +137,6 @@ Renderer::Renderer()
 	//page2.rotate(-45);
 	//page.scale(1.5, 1.5);
 
-	rectB.actionEvent = gui::Entity::ActionEvent::NONE;
-	rectB.setAction([this] {if (rectB.isSelected())page.setActive(); else page.setInactive(); });
 
 	page.addEntity(text);
 	page.addEntity(button);
