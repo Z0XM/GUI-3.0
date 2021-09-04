@@ -4,6 +4,7 @@ using namespace gui;
 Button::Button(const sf::Vector2f& size)
 	:Entity(GUI_ID_BUTTON)
 {
+	actionEvent = ActionEvent::RELEASE;
 }
 void Button::setPointCount(std::size_t count)
 {
