@@ -473,7 +473,7 @@ protected:
 	sf::RectangleShape m_box;    /// < box object of textbox
     sf::Text m_text;             /// < text object of textbox
     TextAlign m_alignment;       /// < alignment of text with the box
-    bool m_input_enabled         /// < whether textbox will take keyboard inputs
+    bool m_input_enabled;        /// < whether textbox will take keyboard inputs
 };
 
 } // namespace gui
