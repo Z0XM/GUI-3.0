@@ -49,6 +49,14 @@ public:
 	void setBoxOutlineThickness(float thickness) override;
 
 	////////////////////////////////////////////////////////////
+	/// \brief Set the scale factor of the box
+	/// 
+	/// \param scaleFactor -> new scale factor
+	///
+	////////////////////////////////////////////////////////////
+	void setBoxScale(const sf::Vector2f& scaleFactor);
+
+	////////////////////////////////////////////////////////////
 	/// \brief Set the color of the button box upon selection
 	/// 
 	/// \param color -> new color
@@ -71,6 +79,14 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	void setSelectionOutlineThickness(float thickness);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Set the scale factor of the box upon selection
+	/// 
+	/// \param scaleFactor -> new scale factor
+	///
+	////////////////////////////////////////////////////////////
+	void setSelectionScale(const sf::Vector2f& scaleFactor);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Actions to take upon selection of the object
@@ -105,6 +121,7 @@ private:
 		sf::Color fillColor;		/// < color of the box
 		sf::Color outlineColor;		/// < color of the outline of the box
 		float outlineThickness;		/// < thickness of the outline of the box
+		sf::Vector2f scaleFactor;	/// < scale factor of the box
 	};
 	SelectionProperty m_selected;   /// < selection property
 	SelectionProperty m_original;   /// < deselection property

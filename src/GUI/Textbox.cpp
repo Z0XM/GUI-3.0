@@ -66,6 +66,14 @@ void Textbox::setBoxOutlineThickness(float thickness)
 {
 	m_box.setOutlineThickness(thickness);
 }
+void gui::Textbox::setTexture(const sf::Texture* texture, bool resetRect)
+{
+	m_box.setTexture(texture, resetRect);
+}
+void gui::Textbox::setTextureRect(const sf::IntRect& rect)
+{
+	m_box.setTextureRect(rect);
+}
 void Textbox::setTextFillColor(const sf::Color& color)
 {
 	m_text.setFillColor(color);
@@ -113,6 +121,14 @@ const sf::Color& Textbox::getBoxOutlineColor() const
 float Textbox::getBoxOutlineThickness() const
 {
 	return m_box.getOutlineThickness();
+}
+const sf::Texture* gui::Textbox::getTexture() const
+{
+	return m_box.getTexture();
+}
+const sf::IntRect& gui::Textbox::getTextureRect() const
+{
+	return m_box.getTextureRect();
 }
 const sf::Color& Textbox::getTextFillColor() const
 {

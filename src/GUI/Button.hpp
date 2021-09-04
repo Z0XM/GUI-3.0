@@ -95,6 +95,14 @@ public:
 	void setOutlineThickness(float thickness);
 
 	////////////////////////////////////////////////////////////
+	/// \brief Set the scale factor of the shape
+	/// 
+	/// \param scaleFactor -> new scale factor
+	///
+	////////////////////////////////////////////////////////////
+	void setScale(const sf::Vector2f& scaleFactor);
+
+	////////////////////////////////////////////////////////////
 	/// \brief Set the color of the button shape upon selection
 	/// 
 	/// \param color -> new color
@@ -117,6 +125,14 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	void setSelectionOutlineThickness(float thickness);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Set the scale factor of the shape upon selection
+	/// 
+	/// \param scaleFactor -> new scale factor
+	///
+	////////////////////////////////////////////////////////////
+	void setSelectionScale(const sf::Vector2f& scaleFactor);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Get the local bounding rectangle of the entity
@@ -208,6 +224,7 @@ private:
 		sf::Color fillColor;		/// < color of the shape
 		sf::Color outlineColor;		/// < color of the outline of the shape
 		float outlineThickness;		/// < thickness of the outline of the shape
+		sf::Vector2f scaleFactor;	/// < scale factor of the shape
 	};
 	SelectionProperty m_selected;   /// < selection property
 	SelectionProperty m_original;   /// < deselection property

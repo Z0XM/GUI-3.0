@@ -27,7 +27,6 @@ Entity::Entity(unsigned int class_id)
 	actionEvent = ActionEvent::NONE;
 	m_active = true;
 	m_functionalParent = nullptr;
-	m_baseEntity = nullptr;
 }
 Entity::~Entity()
 {

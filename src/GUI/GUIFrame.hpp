@@ -382,7 +382,7 @@ public:
 	bool contains(const sf::Vector2f& point) const override;
 
 	////////////////////////////////////////////////////////////
-	/// \brief Get the local bounding rectangle of the entity
+	/// \brief Get the local bounding rectangle of the object
 	///
 	/// The returned rectangle is in local coordinates, which means
 	/// that it ignores the transformations (translation, rotation,
@@ -390,7 +390,7 @@ public:
 	/// In other words, this function returns the bounds of the
 	/// entity in the entity's coordinate system.
 	///
-	/// \return Local bounding rectangle of the entity
+	/// \return Local bounding rectangle of the object
 	///
 	////////////////////////////////////////////////////////////
 	sf::FloatRect getLocalBounds() const override;

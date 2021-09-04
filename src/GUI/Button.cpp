@@ -27,11 +27,13 @@ void Button::updateShape()
 		m_shape.setFillColor(m_selected.fillColor);
 		m_shape.setOutlineColor(m_selected.outlineColor);
 		m_shape.setOutlineThickness(m_selected.outlineThickness);
+		m_shape.setScale(m_selected.scaleFactor);
 	}
 	else {
 		m_shape.setFillColor(m_original.fillColor);
 		m_shape.setOutlineColor(m_original.outlineColor);
 		m_shape.setOutlineThickness(m_original.outlineThickness);
+		m_shape.setScale(m_original.scaleFactor);
 	}
 }
 void Button::setFillColor(const sf::Color& color)
@@ -49,6 +51,11 @@ void Button::setOutlineThickness(float thickness)
 	m_original.outlineThickness = thickness;
 	updateShape();
 }
+void gui::Button::setScale(const sf::Vector2f& scaleFactor)
+{
+	m_original.scaleFactor = scaleFactor;
+	updateShape();
+}
 void Button::setSelectionFillColor(const sf::Color& color)
 {
 	m_selected.fillColor = color;
@@ -62,6 +69,11 @@ void Button::setSelectionOutlineColor(const sf::Color& color)
 void Button::setSelectionOutlineThickness(float thickness)
 {
 	m_selected.outlineThickness = thickness;
+	updateShape();
+}
+void gui::Button::setSelectionScale(const sf::Vector2f& scaleFactor)
+{
+	m_selected.scaleFactor = scaleFactor;
 	updateShape();
 }
 sf::FloatRect gui::Button::getLocalBounds() const

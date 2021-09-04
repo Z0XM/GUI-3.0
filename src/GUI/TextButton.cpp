@@ -14,11 +14,13 @@ void TextButton::updateBox()
 		m_box.setFillColor(m_selected.fillColor);
 		m_box.setOutlineColor(m_selected.outlineColor);
 		m_box.setOutlineThickness(m_selected.outlineThickness);
+		m_box.setScale(m_selected.scaleFactor);
 	}
 	else {
 		m_box.setFillColor(m_original.fillColor);
 		m_box.setOutlineColor(m_original.outlineColor);
 		m_box.setOutlineThickness(m_original.outlineThickness);
+		m_box.setScale(m_original.scaleFactor);
 	}
 }
 
@@ -37,6 +39,11 @@ void TextButton::setBoxOutlineThickness(float thickness)
 	m_original.outlineThickness = thickness;
 	updateBox();
 }
+void gui::TextButton::setBoxScale(const sf::Vector2f& scaleFactor)
+{
+	m_original.scaleFactor = scaleFactor;
+	updateBox();
+}
 void TextButton::setSelectionFillColor(const sf::Color& color)
 {
 	m_selected.fillColor = color;
@@ -50,6 +57,11 @@ void TextButton::setSelectionOutlineColor(const sf::Color& color)
 void TextButton::setSelectionOutlineThickness(float thickness)
 {
 	m_selected.outlineThickness = thickness;
+	updateBox();
+}
+void gui::TextButton::setSelectionScale(const sf::Vector2f& scaleFactor)
+{
+	m_selected.scaleFactor = scaleFactor;
 	updateBox();
 }
 void TextButton::activateSelection()

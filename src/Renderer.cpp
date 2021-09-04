@@ -34,7 +34,11 @@ Renderer::Renderer()
 	button.setCharacterSize(22);
 	button.setTextFillColor(sf::Color::White);
 	button.setFont(font);
-	button.setString("TextButton");
+	button.setString("Button 1");
+
+	button2 = button;
+	button2.setString("button2");
+	button2.setPosition(120, 5);
 
 	text.setSize({ 80, 40 });
 	text.setPosition(400, 5);
@@ -45,23 +49,6 @@ Renderer::Renderer()
 	text.setTextFillColor(sf::Color::White);
 	text.setFont(font);
 	text.setString("TextButton");
-	
-
-	button2.setSize({ 80, 40 });
-	button2.setPosition(20, 5);
-	button2.setBoxFillColor(sf::Color::Transparent);
-	button2.setBoxOutlineColor(sf::Color(160, 32, 240));
-	button2.setBoxOutlineThickness(3);
-	button2.setSelectionFillColor(sf::Color(160, 32, 240, 126));
-	button2.setSelectionOutlineColor(sf::Color(124, 163, 251));
-	button2.setSelectionOutlineThickness(5);
-	button2.setCharacterSize(22);
-	button2.setTextFillColor(sf::Color::White);
-	button2.setFont(font);
-	button2.setString("button2");
-	button2.setPosition(120, 5);
-
-
 
 	slider.setSize({ 80, 40 });
 	slider.setPosition(300, 5);
@@ -112,27 +99,11 @@ Renderer::Renderer()
 	dbutton1.setString("dbutton1");
 	drop.addItem(dbutton1);
 
-	dbutton2.setBoxFillColor(sf::Color::Transparent);
-	dbutton2.setBoxOutlineColor(sf::Color(160, 32, 240));
-	dbutton2.setBoxOutlineThickness(3);
-	dbutton2.setSelectionFillColor(sf::Color(160, 32, 240, 126));
-	dbutton2.setSelectionOutlineColor(sf::Color(124, 163, 251));
-	dbutton2.setSelectionOutlineThickness(5);
-	dbutton2.setCharacterSize(22);
-	dbutton2.setTextFillColor(sf::Color::White);
-	dbutton2.setFont(font);
+	dbutton2 = dbutton1;
 	dbutton2.setString("dbutton2");
 	drop.addItem(dbutton2);
 
-	dbutton3.setBoxFillColor(sf::Color::Transparent);
-	dbutton3.setBoxOutlineColor(sf::Color(160, 32, 240));
-	dbutton3.setBoxOutlineThickness(3);
-	dbutton3.setSelectionFillColor(sf::Color(160, 32, 240, 126));
-	dbutton3.setSelectionOutlineColor(sf::Color(124, 163, 251));
-	dbutton3.setSelectionOutlineThickness(5);
-	dbutton3.setCharacterSize(22);
-	dbutton3.setTextFillColor(sf::Color::White);
-	dbutton3.setFont(font);
+	dbutton3 = dbutton1;
 	dbutton3.setString("dbutton3");
 	drop.addItem(dbutton3);
 
