@@ -272,7 +272,9 @@ bool Frame::pollEvents(sf::Event e)
 			if (m_clicked->actionEvent == Entity::ActionEvent::RELEASE && m_clicked->hasAction())
 				m_clicked->callAction();
 		}
-		m_clicked = nullptr;
+		// textboxes whose input is enabled dont lose thier click unless something else is clicked
+		if(m_clicked != nullptr && (Entity::getClassID(*m_clicked) != GUI_ID_TEXTBOX || !((Textbox*)m_clicked)->isInputEnabled()))
+			m_clicked = nullptr;
 
 		return true;
 	}
@@ -286,6 +288,20 @@ bool Frame::pollEvents(sf::Event e)
 			else if (Entity::getClassID(*it->second) == GUI_ID_DROPDOWN && ((Dropdown*)it->second)->containsExcludingHeader(getMousePosition()))
 				wasEventPolled = ((Dropdown*)it->second)->pollEvents(e);
 		}
+	}
+	// if text is entered while textbox is seleccted
+	else if (m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX && ((Textbox*)m_clicked)->isInputEnabled() && e.type == sf::Event::TextEntered) {
+		Textbox& textbox = *((Textbox*)m_clicked);
+		char c = e.text.unicode;
+		if (c == 13) textbox.setString(textbox.getString() + '\n'); // enter is pressed
+		else if (c == 8) { // backspace is pressed
+			std::string str(textbox.getString());
+			if (str.size() > 0) {
+				str.erase(str.size() - 1);
+				textbox.setString(str);
+			}
+		}
+		else textbox.setString(textbox.getString() + c); // normal characters or numbers
 	}
 
 	return false;

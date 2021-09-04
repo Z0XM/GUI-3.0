@@ -221,15 +221,15 @@ private:
 	/// 
 	////////////////////////////////////////////////////////////
 	struct SelectionProperty {
-		sf::Color fillColor;		/// < color of the shape
-		sf::Color outlineColor;		/// < color of the outline of the shape
-		float outlineThickness;		/// < thickness of the outline of the shape
-		sf::Vector2f scaleFactor;	/// < scale factor of the shape
+		sf::Color fillColor;				/// < color of the shape
+		sf::Color outlineColor;				/// < color of the outline of the shape
+		float outlineThickness;				/// < thickness of the outline of the shape
+		sf::Vector2f scaleFactor = {1, 1};	/// < scale factor of the shape
 	};
-	SelectionProperty m_selected;   /// < selection property
-	SelectionProperty m_original;   /// < deselection property
+	SelectionProperty m_selected;			/// < selection property
+	SelectionProperty m_original;			/// < deselection property
 
-	sf::ConvexShape m_shape;          /// < shape of the button
+	sf::ConvexShape m_shape;				/// < shape of the button
 };
 
 } // namespace gui

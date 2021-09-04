@@ -5,6 +5,7 @@ using namespace gui;
 Textbox::Textbox(const sf::Vector2f size, int class_id)
 	:Entity(class_id)
 {
+	m_input_enabled = false;
 	m_alignment = TextAlign::CENTER;
 	setSize(size);
 }
@@ -12,12 +13,28 @@ Textbox::Textbox(const sf::Vector2f size, int class_id)
 Textbox::Textbox(const sf::Vector2f& size):
 	Entity(GUI_ID_TEXTBOX)
 {
+	m_input_enabled = false;
 	m_alignment = TextAlign::CENTER;
 	setSize(size);
 }
 
 Textbox::~Textbox()
 {
+}
+
+void gui::Textbox::setInputEnabled()
+{
+	m_input_enabled = true;
+}
+
+void gui::Textbox::setInputDisabled()
+{
+	m_input_enabled = false;
+}
+
+bool gui::Textbox::isInputEnabled()
+{
+	return m_input_enabled;
 }
 
 void Textbox::setSize(const sf::Vector2f& size)
@@ -86,7 +103,7 @@ void gui::Textbox::setTextOutlineThickness(float thickness)
 {
 	m_text.setOutlineThickness(thickness);
 }
-const std::string& Textbox::getString() const
+std::string Textbox::getString() const
 {
 	return m_text.getString();
 }

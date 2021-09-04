@@ -37,6 +37,26 @@ public:
 	virtual ~Textbox();
 
     ////////////////////////////////////////////////////////////
+    /// \brief Enable object to take keyboard text input
+    ///
+    ////////////////////////////////////////////////////////////
+    void setInputEnabled();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Disable object to take keyboard text input
+    ///
+    ////////////////////////////////////////////////////////////
+    void setInputDisabled();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Whether input is enabled or not
+    ///
+    /// \return true if input enabled, false otherwise
+    /// 
+    ////////////////////////////////////////////////////////////
+    bool isInputEnabled();
+
+    ////////////////////////////////////////////////////////////
     /// \brief Set the size of the box
     ///
     /// \param size -> New size
@@ -237,7 +257,7 @@ public:
     /// \return Text's string
     ///
     ////////////////////////////////////////////////////////////
-    const std::string& getString() const;
+    std::string getString() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the text's font
@@ -453,6 +473,7 @@ protected:
 	sf::RectangleShape m_box;    /// < box object of textbox
     sf::Text m_text;             /// < text object of textbox
     TextAlign m_alignment;       /// < alignment of text with the box
+    bool m_input_enabled         /// < whether textbox will take keyboard inputs
 };
 
 } // namespace gui

@@ -118,13 +118,13 @@ private:
 	/// 
 	////////////////////////////////////////////////////////////
 	struct SelectionProperty {
-		sf::Color fillColor;		/// < color of the box
-		sf::Color outlineColor;		/// < color of the outline of the box
-		float outlineThickness;		/// < thickness of the outline of the box
-		sf::Vector2f scaleFactor;	/// < scale factor of the box
+		sf::Color fillColor;					/// < color of the box
+		sf::Color outlineColor;					/// < color of the outline of the box
+		float outlineThickness;					/// < thickness of the outline of the box
+		sf::Vector2f scaleFactor = { 1, 1 };	/// < scale factor of the shape
 	};
-	SelectionProperty m_selected;   /// < selection property
-	SelectionProperty m_original;   /// < deselection property
+	SelectionProperty m_selected;				/// < selection property
+	SelectionProperty m_original;				/// < deselection property
 };
 
 } // namespace gui
