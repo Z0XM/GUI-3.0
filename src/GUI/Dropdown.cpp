@@ -29,8 +29,6 @@ Dropdown::Dropdown(const sf::Vector2f& headerSize, float itemHeight, int itemLim
 }
 void Dropdown::setHeader()
 {
-	m_header.setBoxFillColor(sf::Color::White);
-	m_header.setSelectionFillColor(sf::Color::White);
 	m_header.actionEvent = ActionEvent::MOUSEHELD;
 	m_header.setAction([this] {move(getFunctionalParent()->getLastMouseOffset()); });
 
@@ -70,6 +68,11 @@ void Dropdown::setHeaderSize(const sf::Vector2f& headerSize)
 	m_page.setActiveRegion({ m_page.getActiveRegion().left, m_page.getActiveRegion().top, headerSize.x, m_page.getActiveRegion().height });
 	m_page.setPosition(0, headerSize.y);
 }
+void gui::Dropdown::setHeaderColor(const sf::Color& color)
+{
+	m_header.setBoxFillColor(color);
+	m_header.setSelectionFillColor(color);
+}
 void Dropdown::setItemLimit(int limit)
 {
 	m_itemLimit = limit;
@@ -83,12 +86,12 @@ void Dropdown::setItemHeight(float height)
 	m_page.setMaxSize({ m_header.getSize().x, m_itemCount * (m_itemSize.y + 10) + 10 });
 	m_page.setActiveRegion({ m_page.getActiveRegion().left, m_page.getActiveRegion().top, m_page.getActiveRegion().width, std::min(m_itemLimit, m_itemCount) * (m_itemSize.y + 10) + 10 });
 }
-void Dropdown::setTitle(const std::string& title, sf::Font& font, int charSize)
+void Dropdown::setTitle(const std::string& title, sf::Font& font, int charSize, const sf::Color& color)
 {
 	m_header.setFont(font);
 	m_header.setString(title);
 	m_header.setCharacterSize(charSize);
-	m_header.setTextFillColor(sf::Color::Black);
+	m_header.setTextFillColor(color);
 	m_header.setStyle(sf::Text::Underlined | sf::Text::Bold);
 }
 void Dropdown::setFillColor(sf::Color color)

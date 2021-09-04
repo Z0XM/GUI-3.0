@@ -38,6 +38,14 @@ public:
 	void setHeaderSize(const sf::Vector2f& headerSize);
 
 	////////////////////////////////////////////////////////////
+	/// \brief Set the color of the header
+	/// 
+	/// \param headerSize -> New color of header
+	/// 
+	////////////////////////////////////////////////////////////
+	void setHeaderColor(const sf::Color& color);
+
+	////////////////////////////////////////////////////////////
 	/// \brief Set the limit of items to display at once
 	/// 
 	/// \param limit -> New limit for drop list
@@ -59,9 +67,10 @@ public:
 	/// \param string -> Text assigned to the string
 	/// \param font -> Font used to draw the string
 	/// \param characterSize -> Base size of characters, in pixels 
+	/// \param color -> New color of text
 	///
 	////////////////////////////////////////////////////////////
-	void setTitle(const std::string& title, sf::Font& font, int charSize);
+	void setTitle(const std::string& title, sf::Font& font, int charSize, const sf::Color& color);
 
 	////////////////////////////////////////////////////////////
 	/// \brief Set the background color of the object
@@ -227,6 +236,7 @@ private:
 	///
 	////////////////////////////////////////////////////////////
 	void setFunctionalParentForSubVariables(Functional* parent) override;
+
 
 	////////////////////////////////////////////////////////////
 	// Member Data
