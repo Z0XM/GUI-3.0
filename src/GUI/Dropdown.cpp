@@ -40,11 +40,11 @@ void Dropdown::setHeader()
 	m_minimise.setAction([this] {
 		if (m_page.isActive()) {
 			m_page.setInactive();
-			m_minimise.rotate(90);
+			m_minimise.setRotation(90);
 		}
 		else {
 			m_page.setActive();
-			m_minimise.rotate(-90);
+			m_minimise.setRotation(0);
 		}
 		});
 }
@@ -166,6 +166,16 @@ void Dropdown::eraseItem(int where)
 	m_page.setMaxSize({ m_header.getSize().x, m_itemCount * (m_itemSize.y + 10) + 10 });
 	m_page.setActiveRegion({ m_page.getActiveRegion().left, m_page.getActiveRegion().top, m_page.getActiveRegion().width, std::min(m_itemLimit, m_itemCount) * (m_itemSize.y + 10) + 10 });
 	m_page.setScroll(Page::ScrollPlacement::RIGHT);
+}
+void gui::Dropdown::expand()
+{
+	m_page.setActive();
+	m_minimise.setRotation(90);
+}
+void gui::Dropdown::collapse()
+{
+	m_page.setInactive();
+	m_minimise.setRotation(0);
 }
 bool Dropdown::pollEvents(sf::Event event)
 {
