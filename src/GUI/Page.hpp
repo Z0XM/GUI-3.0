@@ -315,7 +315,7 @@ private:
 		/// \return current size of the scroll
 		///
 		////////////////////////////////////////////////////////////
-		const sf::Vector2f& getSize() const;
+		sf::Vector2f getSize() const;
 
 		////////////////////////////////////////////////////////////
 		/// \brief map the position of to new position in scroll

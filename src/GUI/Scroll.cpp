@@ -67,7 +67,7 @@ void Page::Scroll::createScroll(sf::Vector2f region_size, sf::Vector2f max_size,
 	m_bar.setPosition(m_rect.getPosition());
 }
 
-const sf::Vector2f& Page::Scroll::getSize() const
+sf::Vector2f Page::Scroll::getSize() const
 {
 	return{ m_rect.getLocalBounds().width, m_rect.getLocalBounds().height };
 }
