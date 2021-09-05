@@ -108,7 +108,7 @@ Renderer::Renderer()
 	drop.addItem(dbutton3);
 
 	drop.setItemLimit(1);
-	drop.setTitle("Drop", font, 24);
+	drop.setTitle("Drop", font, 24, sf::Color::White);
 
 	rectB.setPointCount(4);
 	rectB.setPoint(0, { 300, 300 });

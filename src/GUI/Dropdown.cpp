@@ -32,10 +32,9 @@ void Dropdown::setHeader()
 	m_header.actionEvent = ActionEvent::MOUSEHELD;
 	m_header.setAction([this] {move(getFunctionalParent()->getLastMouseOffset()); });
 
-	m_minimise.setFillColor(sf::Color::Red);
-	m_minimise.setSelectionFillColor(sf::Color::Red);
-	m_minimise.setSelectionOutlineColor(sf::Color::Red);
-	m_minimise.setSelectionOutlineThickness(1);
+	m_minimise.setOutlineThickness(2);
+	m_minimise.setSelectionOutlineThickness(2);
+	m_minimise.setSelectionScale(sf::Vector2f(1.1, 1.1));
 	m_minimise.actionEvent = ActionEvent::RELEASE;
 	m_minimise.setAction([this] {
 		if (m_page.isActive()) {
@@ -72,6 +71,26 @@ void Dropdown::setHeaderColor(const sf::Color& color)
 {
 	m_header.setBoxFillColor(color);
 	m_header.setSelectionFillColor(color);
+}
+void Dropdown::setHeaderOutlineThickness(float thickness)
+{
+	m_header.setBoxOutlineThickness(thickness);
+	m_header.setSelectionOutlineThickness(thickness);
+}
+void Dropdown::setHeaderOutlineColor(const sf::Color& color)
+{
+	m_header.setBoxOutlineColor(color);
+	m_header.setSelectionOutlineColor(color);
+}
+void Dropdown::setMinimiseButtonColor(const sf::Color& color)
+{
+	m_minimise.setFillColor(color);
+	m_minimise.setSelectionFillColor(color);
+}
+void gui::Dropdown::setMinimiseButtonOutlineColor(const sf::Color& color)
+{
+	m_minimise.setOutlineColor(color);
+	m_minimise.setSelectionOutlineColor(color);
 }
 void Dropdown::setItemLimit(int limit)
 {
@@ -170,12 +189,12 @@ void Dropdown::eraseItem(int where)
 void Dropdown::expand()
 {
 	m_page.setActive();
-	m_minimise.setRotation(90);
+	m_minimise.setRotation(0);
 }
 void Dropdown::collapse()
 {
 	m_page.setInactive();
-	m_minimise.setRotation(0);
+	m_minimise.setRotation(90);
 }
 bool Dropdown::pollEvents(sf::Event event)
 {

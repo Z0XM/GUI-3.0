@@ -95,14 +95,6 @@ public:
 	void setOutlineThickness(float thickness);
 
 	////////////////////////////////////////////////////////////
-	/// \brief Set the scale factor of the shape
-	/// 
-	/// \param scaleFactor -> new scale factor
-	///
-	////////////////////////////////////////////////////////////
-	void setScale(const sf::Vector2f& scaleFactor);
-
-	////////////////////////////////////////////////////////////
 	/// \brief Set the color of the button shape upon selection
 	/// 
 	/// \param color -> new color
@@ -258,10 +250,10 @@ public:
 
 private:
 	////////////////////////////////////////////////////////////
-	/// \brief update contents of box with original or selected property
+	/// \brief switch properties of shape with second properties
 	///
 	////////////////////////////////////////////////////////////
-	void updateShape();
+	void switchProperties();
 
 
 	////////////////////////////////////////////////////////////
@@ -272,16 +264,13 @@ private:
 	/// \brief Property to change how button looks based on selection and deselection
 	/// 
 	////////////////////////////////////////////////////////////
-	struct SelectionProperty {
-		sf::Color fillColor;				/// < color of the shape
-		sf::Color outlineColor;				/// < color of the outline of the shape
-		float outlineThickness;				/// < thickness of the outline of the shape
-		sf::Vector2f scaleFactor = {1, 1};	/// < scale factor of the shape
-	};
-	SelectionProperty m_selected;			/// < selection property
-	SelectionProperty m_original;			/// < deselection property
-
-	sf::ConvexShape m_shape;				/// < shape of the button
+	
+	sf::Color m_second_FillColor;						/// < second color of the shape
+	sf::Color m_second_OutlineColor;					/// < second color of the outline of the shape
+	float m_second_OutlineThickness;					/// < second thickness of the outline of the shape
+	sf::Vector2f m_second_ScaleFactor = {1, 1};			/// < second scale factor of the shape
+	
+	sf::ConvexShape m_shape;							/// < shape of the button
 };
 
 } // namespace gui

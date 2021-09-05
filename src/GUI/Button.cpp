@@ -22,60 +22,58 @@ sf::Vector2f Button::getPoint(std::size_t index) const
 {
 	return m_shape.getPoint(index);
 }
-void Button::updateShape()
+void Button::switchProperties()
 {
-	if (m_isSelected) {
-		m_shape.setFillColor(m_selected.fillColor);
-		m_shape.setOutlineColor(m_selected.outlineColor);
-		m_shape.setOutlineThickness(m_selected.outlineThickness);
-		m_shape.setScale(m_selected.scaleFactor);
-	}
-	else {
-		m_shape.setFillColor(m_original.fillColor);
-		m_shape.setOutlineColor(m_original.outlineColor);
-		m_shape.setOutlineThickness(m_original.outlineThickness);
-		m_shape.setScale(m_original.scaleFactor);
-	}
+	auto fillColor = m_shape.getFillColor();
+	auto outlineColor = m_shape.getOutlineColor();
+	auto outlineThickness = m_shape.getOutlineThickness();
+	auto scaleFactor = getScale();
+
+	m_shape.setFillColor(m_second_FillColor);
+	m_shape.setOutlineColor(m_second_OutlineColor);
+	m_shape.setOutlineThickness(m_second_OutlineThickness);
+	setScale(m_second_ScaleFactor);
+
+	m_second_FillColor = fillColor;
+	m_second_OutlineColor = outlineColor;
+	m_second_OutlineThickness = outlineThickness;
+	m_second_ScaleFactor = scaleFactor;
 }
+
 void Button::setFillColor(const sf::Color& color)
 {
-	m_original.fillColor = color;
-	updateShape();
+	if (m_isSelected) m_second_FillColor = color;
+	else m_shape.setFillColor(color);
 }
 void Button::setOutlineColor(const sf::Color& color)
 {
-	m_original.outlineColor = color;
-	updateShape();
+	if (m_isSelected) m_second_OutlineColor = color;
+	else m_shape.setOutlineColor(color);
 }
 void Button::setOutlineThickness(float thickness)
 {
-	m_original.outlineThickness = thickness;
-	updateShape();
-}
-void Button::setScale(const sf::Vector2f& scaleFactor)
-{
-	m_original.scaleFactor = scaleFactor;
-	updateShape();
+	if (m_isSelected) m_second_OutlineThickness = thickness;
+	else m_shape.setOutlineThickness(thickness);
 }
 void Button::setSelectionFillColor(const sf::Color& color)
 {
-	m_selected.fillColor = color;
-	updateShape();
+	if (m_isSelected) m_shape.setFillColor(color);
+	else m_second_FillColor = color;
 }
 void Button::setSelectionOutlineColor(const sf::Color& color)
 {
-	m_selected.outlineColor = color;
-	updateShape();
+	if (m_isSelected) m_shape.setOutlineColor(color);
+	else m_second_OutlineColor = color;
 }
 void Button::setSelectionOutlineThickness(float thickness)
 {
-	m_selected.outlineThickness = thickness;
-	updateShape();
+	if (m_isSelected) m_shape.setOutlineThickness(thickness);
+	else m_second_OutlineThickness = thickness;
 }
 void Button::setSelectionScale(const sf::Vector2f& scaleFactor)
 {
-	m_selected.scaleFactor = scaleFactor;
-	updateShape();
+	if (m_isSelected) setScale(scaleFactor);
+	else m_second_ScaleFactor = scaleFactor;
 }
 void Button::setTexture(const sf::Texture* texture, bool resetRect)
 {
@@ -114,12 +112,12 @@ Entity* Button::isHit(const sf::Vector2f& point)
 void Button::activateSelection()
 {
 	m_isSelected = true;
-	updateShape();
+	switchProperties();
 }
 void Button::deactivateSelection()
 {
 	m_isSelected = false;
-	updateShape();
+	switchProperties();
 }
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
