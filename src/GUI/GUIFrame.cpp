@@ -22,12 +22,46 @@ Entity::Entity(unsigned int class_id)
 	m_id = (class_id << 24) + ++item_count;
 
 	// set defaults
-	m_isSelected = false;
+	m_selected = false;
 	action = nullptr;
 	actionEvent = ActionEvent::NONE;
 	m_active = true;
 	m_functionalParent = nullptr;
 }
+
+Entity::Entity(const Entity& entity)
+{
+	m_id = (getClassID(entity) << 24) + ++item_count;
+
+	m_selected = entity.m_selected;
+	action = entity.action;
+	actionEvent = entity.actionEvent;
+	m_active = entity.m_active;
+	m_functionalParent = entity.m_functionalParent;
+
+	setPosition(entity.getPosition());
+	setScale(entity.getScale());
+	setRotation(entity.getRotation());
+	setOrigin(entity.getOrigin());
+}
+
+Entity& Entity::operator=(const Entity& entity)
+{
+	m_selected = entity.m_selected;
+	action = entity.action;
+	actionEvent = entity.actionEvent;
+	m_active = entity.m_active;
+	m_functionalParent = entity.m_functionalParent;
+
+	setPosition(entity.getPosition());
+	setScale(entity.getScale());
+	setRotation(entity.getRotation());
+	setOrigin(entity.getOrigin());
+
+	return *this;
+}
+
+
 Entity::~Entity()
 {
 
@@ -45,9 +79,9 @@ Functional* gui::Entity::getFunctionalParent() const
 {
 	return m_functionalParent;
 }
-bool gui::Entity::isSelected()
+bool gui::Entity::isSelected() const
 {
-	return m_isSelected;
+	return m_selected;
 }
 void Entity::setActive()
 {
@@ -112,7 +146,14 @@ void Frame::setWindow(sf::RenderWindow& window)
 void Frame::addEntity(Entity& entity)
 {
 	// insert in map
-	m_entityMap.insert(std::make_pair(entity.getID(), &entity));	
+	m_entityMap.insert(std::make_pair(entity.getID(), &entity));
+
+	if(Entity::getClassID(entity) == GUI_ID_PAGE){
+		m_functionalParents.insert(std::make_pair(entity.getID(), (Functional*)((Page*)(&entity))));
+	}
+	if(Entity::getClassID(entity) == GUI_ID_DROPDOWN){
+		m_functionalParents.insert(std::make_pair(entity.getID(), (Functional*)((Dropdown*)(&entity))));
+	}
 	
 	setFunctionalParent(entity, this);
 }
@@ -228,24 +269,20 @@ void Frame::update()
 					currentMouseHoveringOn = it->second->isHit(getMousePosition());
 				}
 
+				//if entity has action event as mouse hover
+				if (currentMouseHoveringOn != nullptr && currentMouseHoveringOn->actionEvent == Entity::ActionEvent::MOUSEHOVER && currentMouseHoveringOn->hasAction())
+					currentMouseHoveringOn->action();
+
 				// if mouse leaves previously pointed entity
 				if (m_mouseHoveringOn != currentMouseHoveringOn)
 				{
 					if (m_mouseHoveringOn != nullptr) {
 						m_mouseHoveringOn->deactivateSelection();
-
-						//if entity has action event as mouse hover
-						if (m_mouseHoveringOn->actionEvent == Entity::ActionEvent::MOUSEHOVER && m_mouseHoveringOn->hasAction())
-							m_mouseHoveringOn->action();
 					}
 					m_mouseHoveringOn = currentMouseHoveringOn;
 
 					if (m_mouseHoveringOn != nullptr) {
 						m_mouseHoveringOn->activateSelection();
-
-						//if entity has action event as mouse hover
-						if (m_mouseHoveringOn->actionEvent == Entity::ActionEvent::MOUSEHOVER && m_mouseHoveringOn->hasAction())
-							m_mouseHoveringOn->action();
 					}
 				}
 			}
@@ -282,18 +319,19 @@ bool Frame::pollEvents(sf::Event e)
 	else if (e.type == sf::Event::MouseWheelScrolled) {
 		bool wasEventPolled = false;
 		// poll events in pages and dropdowns
-		for (auto it = m_entityMap.begin(); it != m_entityMap.end() && !wasEventPolled; it++) {
-			if (Entity::getClassID(*it->second) == GUI_ID_PAGE && ((Page*)it->second)->contains(getMousePosition()))
-				wasEventPolled = ((Page*)it->second)->pollEvents(e);
-			else if (Entity::getClassID(*it->second) == GUI_ID_DROPDOWN && ((Dropdown*)it->second)->containsExcludingHeader(getMousePosition()))
-				wasEventPolled = ((Dropdown*)it->second)->pollEvents(e);
+		for (auto it = m_functionalParents.begin(); it != m_functionalParents.end() && !wasEventPolled; it++) {
+			if (it->second->getFunctionalFrame() != 0 && it->second->contains(getMousePosition()))
+				wasEventPolled = it->second->pollEvents(e);
 		}
 	}
 	// if text is entered while textbox is seleccted
 	else if (m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX && ((Textbox*)m_clicked)->isInputEnabled() && e.type == sf::Event::TextEntered) {
 		Textbox& textbox = *((Textbox*)m_clicked);
 		char c = e.text.unicode;
-		if (c == 13) textbox.setString(textbox.getString() + '\n'); // enter is pressed
+		if (c == 13) { // enter is pressed
+			if (textbox.isNewLineEnabled())textbox.setString(textbox.getString() + '\n');
+			else m_clicked = nullptr;
+		}
 		else if (c == 8) { // backspace is pressed
 			std::string str(textbox.getString());
 			if (str.size() > 0) {

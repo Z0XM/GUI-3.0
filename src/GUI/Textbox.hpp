@@ -4,7 +4,7 @@
 #include <string>
 
 namespace gui {
-class Textbox : public Entity, public sf::Transformable
+class Textbox : public Entity
 {
 protected:
     ////////////////////////////////////////////////////////////
@@ -37,16 +37,12 @@ public:
 	virtual ~Textbox();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Enable object to take keyboard text input
+    /// \brief Enable/Disable object to take keyboard text input
+    /// 
+    /// \param enable -> true to enable, false to disable
     ///
     ////////////////////////////////////////////////////////////
-    void setInputEnabled();
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Disable object to take keyboard text input
-    ///
-    ////////////////////////////////////////////////////////////
-    void setInputDisabled();
+    void setInputEnabled(bool enable);
 
     ////////////////////////////////////////////////////////////
     /// \brief Whether input is enabled or not
@@ -55,6 +51,22 @@ public:
     /// 
     ////////////////////////////////////////////////////////////
     bool isInputEnabled();
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Enable/Disable object to take a newline character as input from the return/enter key
+    /// 
+    /// \param enable -> true to enable, false to disable
+    ///
+    ////////////////////////////////////////////////////////////
+    void setNewlineEnabled(bool enable);
+
+    ////////////////////////////////////////////////////////////
+    /// \brief Whether new line is enabled or not
+    ///
+    /// \return true if new line enabled, false otherwise
+    /// 
+    ////////////////////////////////////////////////////////////
+    bool isNewLineEnabled();
 
     ////////////////////////////////////////////////////////////
     /// \brief Set the size of the box
@@ -474,6 +486,7 @@ protected:
     sf::Text m_text;             /// < text object of textbox
     TextAlign m_alignment;       /// < alignment of text with the box
     bool m_input_enabled;        /// < whether textbox will take keyboard inputs
+    bool m_newLine_enabled;      /// < whether return/enter key will input a newline;
 };
 
 } // namespace gui

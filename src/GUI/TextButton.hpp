@@ -92,9 +92,10 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual void deactivateSelection() override;
 
-	void setInputEnabled() = delete;
-	void setInputDisabled() = delete;
+	void setInputEnabled(bool) = delete;
 	bool isInputEnabled() = delete;
+	void setNewLineEnabled(bool) = delete;
+	bool isNewLineEnabled() = delete;
 
 private:
 
@@ -117,7 +118,7 @@ private:
 	sf::Color m_second_FillColor;						/// < second color of the box
 	sf::Color m_second_OutlineColor;					/// < second color of the outline of the box
 	float m_second_OutlineThickness;					/// < second thickness of the outline of the box
-	sf::Vector2f m_second_ScaleFactor = { 1, 1 };		/// < second scale factor of the shape
+	sf::Vector2f m_second_ScaleFactor;					/// < second scale factor of the shape
 };
 
 } // namespace gui

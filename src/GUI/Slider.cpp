@@ -69,12 +69,12 @@ Entity* Slider::isHit(const sf::Vector2f& point)
 }
 void Slider::activateSelection()
 {
-	m_isSelected = true;
+	m_selected = true;
 	m_bar.activateSelection();
 }
 void Slider::deactivateSelection()
 {
-	m_isSelected = false;
+	m_selected = false;
 	m_bar.deactivateSelection();
 }
 void Slider::draw(sf::RenderTarget& target, sf::RenderStates states) const

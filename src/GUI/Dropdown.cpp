@@ -30,7 +30,9 @@ Dropdown::Dropdown(const sf::Vector2f& headerSize, float itemHeight, int itemLim
 void Dropdown::setHeader()
 {
 	m_header.actionEvent = ActionEvent::MOUSEHELD;
-	m_header.setAction([this] {move(getFunctionalParent()->getLastMouseOffset()); });
+	m_header.setAction([this] {
+		move(getFunctionalParent()->getLastMouseOffset()); 
+		});
 
 	m_minimise.setOutlineThickness(2);
 	m_minimise.setSelectionOutlineThickness(2);
@@ -111,11 +113,27 @@ void Dropdown::setTitle(const std::string& title, sf::Font& font, int charSize, 
 	m_header.setString(title);
 	m_header.setCharacterSize(charSize);
 	m_header.setTextFillColor(color);
-	m_header.setStyle(sf::Text::Underlined | sf::Text::Bold);
+	m_header.alignText(Textbox::TextAlign::LEFT);
+	m_header.setStyle(sf::Text::Bold);
 }
-void Dropdown::setFillColor(sf::Color color)
+void Dropdown::setFillColor(const sf::Color& color)
 {
 	m_page.setFillColor(color);
+}
+void Dropdown::setMovementEnabled(bool enable)
+{
+	if(!enable)m_header.setAction(nullptr);
+	else m_header.setAction([this] {
+		move(getFunctionalParent()->getLastMouseOffset());
+	});
+}
+sf::Color Dropdown::getFillColor()
+{
+	return m_page.getFillColor();
+}
+sf::Vector2f Dropdown::getHeaderSize() const
+{
+	return m_header.getSize();
 }
 sf::Vector2f Dropdown::getMousePosition() const
 {
@@ -142,8 +160,10 @@ sf::Vector2f Dropdown::getSize() const
 }
 void Dropdown::addItem(Textbox& textbox)
 {
-	textbox.setPosition(10, m_itemCount++ * (m_itemSize.y + 10) + 10);
 	textbox.setSize(m_itemSize);
+	textbox.setOrigin(m_itemSize * 0.5f);
+	textbox.setPosition((m_header.getSize().x - 10) / 2, m_itemCount++ * (m_itemSize.y + 10) + 10 + m_itemSize.y / 2.0f);
+	
 	m_page.addEntity(textbox);
 
 	m_page.setMaxSize({ m_header.getSize().x, m_itemCount * (m_itemSize.y + 10) + 10 });
@@ -152,14 +172,32 @@ void Dropdown::addItem(Textbox& textbox)
 
 	m_itemIDs.push_back(textbox.getID());
 }
+void gui::Dropdown::addItem(Button& button)
+{
+	button.setPointCount(4);
+	button.setPoint(0, { 0, 0 });
+	button.setPoint(1, { m_itemSize.x, 0 });
+	button.setPoint(2, m_itemSize);
+	button.setPoint(3, { 0, m_itemSize.y });
+	button.setOrigin(m_itemSize * 0.5f);
+	button.setPosition((m_header.getSize().x - 10) / 2, m_itemCount++ * (m_itemSize.y + 10) + 10 + m_itemSize.y / 2.0f);
+	m_page.addEntity(button);
+
+	m_page.setMaxSize({ m_header.getSize().x, m_itemCount * (m_itemSize.y + 10) + 10 });
+	m_page.setActiveRegion({ m_page.getActiveRegion().left, m_page.getActiveRegion().top, m_page.getActiveRegion().width, std::min(m_itemLimit, m_itemCount) * (m_itemSize.y + 10) + 10 });
+	m_page.setScroll(Page::ScrollPlacement::RIGHT);
+
+	m_itemIDs.push_back(button.getID());
+}
 void Dropdown::insertItem(int where, Textbox& textbox)
 {
-	textbox.setPosition(10, where * (m_itemSize.y + 10) + 10);
 	textbox.setSize(m_itemSize);
+	textbox.setOrigin(m_itemSize * 0.5f);
+	textbox.setPosition((m_header.getSize().x - 10) / 2, where * (m_itemSize.y + 10) + 10 + m_itemSize.y / 2.0f);
 	m_page.addEntity(textbox);
 
 	for (int i = where; i < m_itemCount; i++) {
-		((Textbox*)m_page.getByID(m_itemIDs[i]))->move(0, m_itemSize.y + 10);
+		m_page.getByID(m_itemIDs[i])->move(0, m_itemSize.y + 10);
 	}
 
 	++m_itemCount;
@@ -170,6 +208,29 @@ void Dropdown::insertItem(int where, Textbox& textbox)
 
 	m_itemIDs.insert(m_itemIDs.begin() + where, textbox.getID());
 }
+void gui::Dropdown::insertItem(int where, Button& button)
+{
+	button.setPointCount(4);
+	button.setPoint(0, { 0, 0 });
+	button.setPoint(1, { m_itemSize.x, 0 });
+	button.setPoint(2, m_itemSize);
+	button.setPoint(3, { 0, m_itemSize.y });
+	button.setOrigin(m_itemSize * 0.5f);
+	button.setPosition((m_header.getSize().x - 10) / 2, where * (m_itemSize.y + 10) + 10 + m_itemSize.y / 2.0f);
+	m_page.addEntity(button);
+
+	for (int i = where; i < m_itemCount; i++) {
+		m_page.getByID(m_itemIDs[i])->move(0, m_itemSize.y + 10);
+	}
+
+	++m_itemCount;
+
+	m_page.setMaxSize({ m_header.getSize().x, m_itemCount * (m_itemSize.y + 10) + 10 });
+	m_page.setActiveRegion({ m_page.getActiveRegion().left, m_page.getActiveRegion().top, m_page.getActiveRegion().width, std::min(m_itemLimit, m_itemCount) * (m_itemSize.y + 10) + 10 });
+	m_page.setScroll(Page::ScrollPlacement::RIGHT);
+
+	m_itemIDs.insert(m_itemIDs.begin() + where, button.getID());
+}
 void Dropdown::eraseItem(int where)
 {
 	m_page.removeEntity(m_itemIDs[where]);
@@ -179,7 +240,7 @@ void Dropdown::eraseItem(int where)
 	--m_itemCount;
 
 	for (int i = where; i < m_itemCount; i++) {
-		((Textbox*)m_page.getByID(m_itemIDs[i]))->move(0, -m_itemSize.y - 10);
+		m_page.getByID(m_itemIDs[i])->move(0, -m_itemSize.y - 10);
 	}
 
 	m_page.setMaxSize({ m_header.getSize().x, m_itemCount * (m_itemSize.y + 10) + 10 });
@@ -245,11 +306,11 @@ void Dropdown::draw(sf::RenderTarget& target, sf::RenderStates states) const
 }
 void Dropdown::activateSelection()
 {
-	m_isSelected = true;
+	m_selected = true;
 }
 void Dropdown::deactivateSelection()
 {
-	m_isSelected = false;
+	m_selected = false;
 }
 
 void Dropdown::setFunctionalParentForSubVariables(Functional* parent)

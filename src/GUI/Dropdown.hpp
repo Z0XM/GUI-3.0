@@ -8,7 +8,7 @@
 #include <vector>
 
 namespace gui {
-class Dropdown : public Entity, public Functional, public sf::Transformable {
+class Dropdown : public Entity, public Functional {
 public:
 
 	////////////////////////////////////////////////////////////
@@ -110,7 +110,31 @@ public:
 	/// \param color -> New fill color
 	///
 	////////////////////////////////////////////////////////////
-	void setFillColor(sf::Color color);
+	void setFillColor(const sf::Color& color);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Enable / Disable movement of the object
+	/// 
+	/// \param enable -> true to enable, false to disable
+	///
+	////////////////////////////////////////////////////////////
+	void setMovementEnabled(bool enable);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Get the background color of the object
+	/// 
+	/// \return background color of the object
+	///
+	////////////////////////////////////////////////////////////
+	sf::Color getFillColor();
+
+	////////////////////////////////////////////////////////////
+	/// \brief Get the size of the header
+	/// 
+	/// \return size of header
+	/// 
+	////////////////////////////////////////////////////////////
+	sf::Vector2f getHeaderSize() const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Get the mouse position with respect to the active region of current page
@@ -171,6 +195,14 @@ public:
 	void addItem(Textbox& textbox);
 
 	////////////////////////////////////////////////////////////
+	/// \brief add an item to the object to the last
+	/// 
+	/// \param button -> button object to add
+	///
+	////////////////////////////////////////////////////////////
+	void addItem(Button& button);
+
+	////////////////////////////////////////////////////////////
 	/// \brief insert an item into the object
 	/// 
 	/// \param where -> index of the item to insert
@@ -178,6 +210,15 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	void insertItem(int where, Textbox& textbox);
+
+	////////////////////////////////////////////////////////////
+	/// \brief insert an item into the object
+	/// 
+	/// \param where -> index of the item to insert
+	/// \param textbox -> button object to insert
+	///
+	////////////////////////////////////////////////////////////
+	void insertItem(int where, Button& button);
 
 	////////////////////////////////////////////////////////////
 	/// \brief erase an item from object
@@ -206,7 +247,7 @@ public:
 	///		   Different polled window and current window may produce unexpected results
 	/// 
 	////////////////////////////////////////////////////////////
-	bool pollEvents(sf::Event event);
+	bool pollEvents(sf::Event event) override;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Check if the point is inside the object

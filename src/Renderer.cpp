@@ -116,7 +116,7 @@ Renderer::Renderer()
 	rectB.setPoint(2, { 600, 500 });
 	rectB.setPoint(3, { 300, 500 });
 	rectB.setPosition(10, 10);
-	rectB.setAction([this] {text.isInputEnabled() ? text.setInputDisabled() : text.setInputEnabled(); });
+	rectB.setAction([this] {text.setInputEnabled(!text.isInputEnabled()); });
 	page2.addEntity(drop);
 
 	rectB.setFillColor(sf::Color::Red);
@@ -133,9 +133,9 @@ Renderer::Renderer()
 	page3.setHeader(true, true, true);
 
 
-	//page.rotate(45);
-	//page2.rotate(-45);
-	//page.scale(1.5, 1.5);
+	page.rotate(45);
+	page2.rotate(-45);
+	page.scale(1.5, 1.5);
 
 
 	page.addEntity(text);
@@ -143,6 +143,7 @@ Renderer::Renderer()
 	page.addEntity(button2);
 	page.addEntity(slider);
 	frame.addEntity(page2);
+	//page.rotate(45);
 
 	frame.addEntity(page);
 	frame.removeEntity(page2);

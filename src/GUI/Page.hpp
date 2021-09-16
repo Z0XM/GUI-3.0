@@ -8,7 +8,7 @@
 namespace gui {
 class Scroll;
 
-class Page : public Entity, public Functional, public sf::Transformable {
+class Page : public Entity, public Functional {
 public:
 
 	////////////////////////////////////////////////////////////
@@ -84,6 +84,58 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	void setFillColor(sf::Color color);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Get the background color of the object
+	/// 
+	/// \return background color
+	///
+	////////////////////////////////////////////////////////////
+	sf::Color getFillColor() const;
+
+	////////////////////////////////////////////////////////////
+	/// \brief Change the source texture of the shape
+	///
+	/// The \a texture argument refers to a texture that must
+	/// exist as long as the shape uses it. Indeed, the shape
+	/// doesn't store its own copy of the texture, but rather keeps
+	/// a pointer to the one that you passed to this function.
+	/// If the source texture is destroyed and the shape tries to
+	/// use it, the behavior is undefined.
+	/// \a texture can be NULL to disable texturing.
+	/// If \a resetRect is true, the TextureRect property of
+	/// the shape is automatically adjusted to the size of the new
+	/// texture. If it is false, the texture rect is left unchanged.
+	///
+	/// \param texture   New texture
+	/// \param resetRect Should the texture rect be reset to the size of the new texture?
+	///
+	////////////////////////////////////////////////////////////
+	void setTexture(const sf::Texture* texture, bool resetRect = false);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Set the sub-rectangle of the texture that the shape will display
+	///
+	/// The texture rect is useful when you don't want to display
+	/// the whole texture, but rather a part of it.
+	/// By default, the texture rect covers the entire texture.
+	///
+	/// \param rect Rectangle defining the region of the texture to display
+	///
+	////////////////////////////////////////////////////////////
+	void setTextureRect(const sf::IntRect& rect);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Get the source texture of the shape
+	///
+	/// If the shape has no source texture, a NULL pointer is returned.
+	/// The returned pointer is const, which means that you can't
+	/// modify the texture when you retrieve it with this function.
+	///
+	/// \return Pointer to the shape's texture
+	///
+	////////////////////////////////////////////////////////////
+	const sf::Texture* getTexture() const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Get the local bounding rectangle of the entity
@@ -204,7 +256,7 @@ public:
 	///		   Different polled window and current window may produce unexpected results
 	/// 
 	////////////////////////////////////////////////////////////
-	bool pollEvents(sf::Event event);
+	bool pollEvents(sf::Event event) override;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Get the mouse position with respect to the current page
@@ -413,12 +465,11 @@ private:
 
 	Scroll m_connectedScroll[4];			/// < list of connected scrolls
 
-	sf::Color m_fillColor;					/// < background color of active region the page
-
 	Button m_header;						/// < header of the page
 	Button m_minimise;						/// < minimise button for the page
 	Button m_maximise;						/// < maximise button for the page
 	sf::FloatRect m_lastActiveRegion;		/// < stores the last active region for m_maximise
+	sf::RectangleShape m_background;		/// < background of the page
 };
 
 } // namespace gui

@@ -10,15 +10,13 @@ Page::Scroll::Scroll()
 	m_place = NONE;
 
 	m_rect.setPointCount(4);
-	m_rect.setFillColor(sf::Color(41, 41, 41));
-	m_rect.setOutlineColor(sf::Color::Transparent);
-	m_rect.setSelectionFillColor(sf::Color(60, 60, 60));
+	m_rect.setFillColor(sf::Color(46, 46, 46));
+	m_rect.setSelectionFillColor(sf::Color(86, 86, 86));
 	m_rect.setSelectionOutlineColor(sf::Color::Transparent);
 
 	m_bar.setPointCount(4);
-	m_bar.setFillColor(sf::Color(150, 150, 150, 70));
-	m_bar.setOutlineColor(sf::Color::Transparent);
-	m_bar.setSelectionFillColor(sf::Color(200, 200, 200, 70));
+	m_bar.setFillColor(sf::Color(153, 153, 153));
+	m_bar.setSelectionFillColor(sf::Color(191, 191, 191));
 	m_bar.setSelectionOutlineColor(sf::Color::Transparent);
 
 	m_rect.actionEvent = ActionEvent::PRESS;
@@ -132,10 +130,10 @@ void Page::Scroll::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Page::Scroll::activateSelection()
 {
-	m_isSelected = true;
+	m_selected = true;
 }
 
 void Page::Scroll::deactivateSelection()
 {
-	m_isSelected = false;
+	m_selected = false;
 }

@@ -62,15 +62,19 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual sf::FloatRect getLocalBounds() const = 0;
 
+	virtual bool pollEvents(sf::Event event) = 0;
+
 
 	enum FunctionalObject {
-		FRAME,
-		PAGE,
-		DROPDOWN
+		FRAME = 0,
+		PAGE = GUI_ID_PAGE,
+		DROPDOWN = GUI_ID_DROPDOWN
 	};
 
 	////////////////////////////////////////////////////////////
-	/// \brief true if object is frame else false
+	/// \brief return Functional object Type (Frame, Page, Dropdown)
+	/// 
+	/// \return type of functional object
 	/// 
 	////////////////////////////////////////////////////////////
 	FunctionalObject getFunctionalFrame();
@@ -90,7 +94,7 @@ protected:
 
 class Frame;
 
-class Entity {
+class Entity : public sf::Transformable {
 	friend Frame;
 
 protected:
@@ -98,10 +102,20 @@ protected:
 	////////////////////////////////////////////////////////////
 	/// \brief Protected constructor, Sets the unique ID of the object
 	/// 
-	/// \param class_id Globally defined GUI CLASS IDs
+	/// \param class_id -> Globally defined GUI CLASS IDs
 	/// 
 	////////////////////////////////////////////////////////////
 	Entity(unsigned int class_id);
+
+	///////////////////////////////////////////////////////////
+	/// \brief Protected Copy Constructor, Sets the unique ID of the object
+	///
+	/// \param entity -> object to copy from
+	/// 
+	///////////////////////////////////////////////////////////
+	Entity(const Entity& entity);
+
+	Entity& operator=(const Entity& entity);
 
 public:
 
@@ -183,7 +197,7 @@ public:
 	/// \return True if object is selected
 	///
 	////////////////////////////////////////////////////////////
-	bool isSelected();
+	bool isSelected() const;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Set the active state of the object to true
@@ -232,11 +246,11 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	enum class ActionEvent {
-		NONE,       /// < No event
-		RELEASE,    /// < If Mouse button is released
-		PRESS,      /// < If Mouse button is pressed
-		MOUSEHELD,  /// < If Mouse button is pressed and held
-		MOUSEHOVER  /// < If Mouse button has mouse over it
+		NONE,			/// < No event
+		RELEASE,		/// < If Mouse button is released
+		PRESS,			/// < If Mouse button is pressed
+		MOUSEHELD,		/// < If Mouse button is pressed and held
+		MOUSEHOVER,		/// < If Mouse button has mouse over it
 	};
 
 private:
@@ -261,7 +275,7 @@ public:
 	ActionEvent actionEvent;								/// < Type of the Action Event
 
 protected:
-	bool m_isSelected;										/// < Selection State of the entity
+	bool m_selected;										/// < Selection State of the entity
 	std::function<void()> action;							/// < Job of the entity upon reaching specified event state 
 
 private:
@@ -280,6 +294,9 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	Frame();
+
+	Frame(Frame&) = delete;
+	Frame(Frame&&) = delete;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Default Destructor
@@ -426,6 +443,7 @@ private:
 	Entity *m_clicked;													/// < last Entity on which mouse button was pressed
 	sf::Vector2f m_lastMousePos;										/// < last mouse Position on the current window
 	std::unordered_map<unsigned int, Entity*> m_entityMap;				/// < maps gui Ids to their respective entities
+	std::unordered_map<unsigned int, Functional*> m_functionalParents;	/// < maps gui Ids of functional parents to their respective entities (also in entityMap)
 
 	static std::unordered_map<std::string, unsigned int> m_nameMap;		/// < maps from names to the gui Id of their respective entities, Single Map for all Frame objects
 };

@@ -10,6 +10,7 @@ Page::Page(const sf::Vector2f& size)
 	m_maxSize = size;
 	m_activeRegion = sf::FloatRect(0, 0, size.x, size.y);
 	m_lastActiveRegion = sf::FloatRect(0, 0, m_maxSize.x, m_maxSize.y);
+	m_background.setSize(size);
 
 	for (int i = 0; i < 4; i++)
 		m_connectedScroll[i].setInactive();
@@ -17,6 +18,7 @@ Page::Page(const sf::Vector2f& size)
 	setHeader(false);
 
 	m_functional_object = FunctionalObject::PAGE;
+	
 }
 void Page::addEntity(Entity& entity)
 {
@@ -67,7 +69,23 @@ std::string Page::getName(unsigned int id)
 }
 void Page::setFillColor(sf::Color color)
 {
-	m_fillColor = color;
+	m_background.setFillColor(color);
+}
+sf::Color Page::getFillColor() const
+{
+	return m_background.getFillColor();
+}
+void Page::setTexture(const sf::Texture* texture, bool resetRect)
+{
+	m_background.setTexture(texture, resetRect);
+}
+void Page::setTextureRect(const sf::IntRect& rect)
+{
+	m_background.setTextureRect(rect);
+}
+const sf::Texture* gui::Page::getTexture() const
+{
+	return m_background.getTexture();;
 }
 void Page::setActiveRegion(const sf::FloatRect& region)
 {
@@ -106,6 +124,7 @@ void Page::setMaxSize(const sf::Vector2f& size)
 {
 	m_maxSize = size;
 	m_lastActiveRegion = sf::FloatRect(0, 0, m_maxSize.x, m_maxSize.y);
+	m_background.setSize(getMaxSize());
 }
 sf::Vector2f Page::getMaxSize() const
 {
@@ -315,51 +334,46 @@ void Page::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	states.transform *= getTransform();
 
 	if (isActive()) {
-		// generate quad from sf::Vertex for background color
-		sf::Vertex v[4] = {
-			{states.transform.transformPoint(0, 0), m_fillColor},
-			{states.transform.transformPoint(getSize().x, 0), m_fillColor},
-			{states.transform.transformPoint(getSize()), m_fillColor},
-			{states.transform.transformPoint(0, getSize().y), m_fillColor}
-		};
-		target.draw(v, 4, sf::Quads);
 
 		// x or y attribute of maxSize is zero then error if thrown
 		if (m_maxSize.x && m_maxSize.y) {
 			sf::RenderTexture rt;
-			rt.create(m_maxSize.x, m_maxSize.y);
+			rt.create(getSize().x, getSize().y);
 			rt.clear(sf::Color::Transparent);
 
+			rt.draw(m_background);
+
 			for (auto it = m_entities.begin(); it != m_entities.end(); it++) {
+				(*it)->move(-sf::Vector2f(m_activeRegion.left, m_activeRegion.top));
 				(*it)->draw(rt);
+				(*it)->move(sf::Vector2f(m_activeRegion.left, m_activeRegion.top));
 			}
 			rt.display();
 			sf::Sprite s;
 			s.setTexture(rt.getTexture());
-			s.setTextureRect(sf::IntRect(m_activeRegion));
-			target.draw(s, states.transform);
+			target.draw(s, states);
 		}
 
 		for (int i = 0; i < 4; i++) {
 			if (m_connectedScroll[i].isActive()) {
-				m_connectedScroll[i].draw(target, states.transform);
+				m_connectedScroll[i].draw(target, states);
 			}
 		}
 	}
 
 	if (m_header.isActive()) {
-		m_header.draw(target, states.transform);
-		m_minimise.draw(target, states.transform);
-		m_maximise.draw(target, states.transform);
+		m_header.draw(target, states);
+		m_minimise.draw(target, states);
+		m_maximise.draw(target, states);
 	}
 }
 void Page::activateSelection()
 {
-	m_isSelected = true;
+	m_selected = true;
 }
 void Page::deactivateSelection()
 {
-	m_isSelected = false;
+	m_selected = false;
 }
 bool Page::pollEvents(sf::Event event)
 {

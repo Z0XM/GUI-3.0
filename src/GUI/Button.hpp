@@ -3,16 +3,14 @@
 
 namespace gui
 {
-class Button : public Entity, public sf::Transformable {
+class Button : public Entity {
 public:
 
 	////////////////////////////////////////////////////////////
 	/// \brief Default constructor
 	///
-	/// \param size -> size of the box
-	/// 
 	////////////////////////////////////////////////////////////
-	Button(const sf::Vector2f& size = sf::Vector2f(0, 0));
+	Button();
 
 	////////////////////////////////////////////////////////////
 	/// \brief Set the number of points of the polygon
@@ -127,23 +125,23 @@ public:
 	void setSelectionScale(const sf::Vector2f& scaleFactor);
 
 	////////////////////////////////////////////////////////////
-   /// \brief Change the source texture of the shape
-   ///
-   /// The \a texture argument refers to a texture that must
-   /// exist as long as the shape uses it. Indeed, the shape
-   /// doesn't store its own copy of the texture, but rather keeps
-   /// a pointer to the one that you passed to this function.
-   /// If the source texture is destroyed and the shape tries to
-   /// use it, the behavior is undefined.
-   /// \a texture can be NULL to disable texturing.
-   /// If \a resetRect is true, the TextureRect property of
-   /// the shape is automatically adjusted to the size of the new
-   /// texture. If it is false, the texture rect is left unchanged.
-   ///
-   /// \param texture   New texture
-   /// \param resetRect Should the texture rect be reset to the size of the new texture?
-   ///
-   ////////////////////////////////////////////////////////////
+	/// \brief Change the source texture of the shape
+	///
+	/// The \a texture argument refers to a texture that must
+	/// exist as long as the shape uses it. Indeed, the shape
+	/// doesn't store its own copy of the texture, but rather keeps
+	/// a pointer to the one that you passed to this function.
+	/// If the source texture is destroyed and the shape tries to
+	/// use it, the behavior is undefined.
+	/// \a texture can be NULL to disable texturing.
+	/// If \a resetRect is true, the TextureRect property of
+	/// the shape is automatically adjusted to the size of the new
+	/// texture. If it is false, the texture rect is left unchanged.
+	///
+	/// \param texture   New texture
+	/// \param resetRect Should the texture rect be reset to the size of the new texture?
+	///
+	////////////////////////////////////////////////////////////
 	void setTexture(const sf::Texture* texture, bool resetRect = false);
 
 	////////////////////////////////////////////////////////////
@@ -157,6 +155,62 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	void setTextureRect(const sf::IntRect& rect);
+
+	////////////////////////////////////////////////////////////
+	/// \brief Get the fill color of the shape
+	///
+	/// \return fill color of the shape
+	///
+	////////////////////////////////////////////////////////////
+	sf::Color getFillColor();
+
+	////////////////////////////////////////////////////////////
+	/// \brief Get the outline color of the shape
+	///
+	/// \return outline color of the shape
+	///
+	////////////////////////////////////////////////////////////
+	sf::Color getOutlineColor();
+
+	////////////////////////////////////////////////////////////
+	/// \brief Get the thickness of the shape's outline
+	///
+	/// \return outline thickness, in pixels
+	///
+	////////////////////////////////////////////////////////////
+	float getOutlineThickness();
+
+	////////////////////////////////////////////////////////////
+	/// \brief Get the color of the button shape upon selection
+	///
+	/// \return selection fill color of the shape 
+	///
+	////////////////////////////////////////////////////////////
+	sf::Color getSelectionFillColor();
+
+	////////////////////////////////////////////////////////////
+	/// \brief Get the outline color of the shape upon selection
+	///
+	/// \return selection outline color of the shape
+	///
+	////////////////////////////////////////////////////////////
+	sf::Color getSelectionOutlineColor();
+
+	////////////////////////////////////////////////////////////
+	/// \brief Get the thickness of the outline of button shape upon selection
+	/// 
+	/// \return selection outline thickness of the shape
+	///
+	////////////////////////////////////////////////////////////
+	float getSelectionOutlineThickness();
+
+	////////////////////////////////////////////////////////////
+	/// \brief Get the scale factor of the shape upon selection
+	/// 
+	/// \return selection scale factor of the shape
+	///
+	////////////////////////////////////////////////////////////
+	sf::Vector2f getSelectionScale();
 
 	////////////////////////////////////////////////////////////
 	/// \brief Get the source texture of the shape
@@ -268,7 +322,7 @@ private:
 	sf::Color m_second_FillColor;						/// < second color of the shape
 	sf::Color m_second_OutlineColor;					/// < second color of the outline of the shape
 	float m_second_OutlineThickness;					/// < second thickness of the outline of the shape
-	sf::Vector2f m_second_ScaleFactor = {1, 1};			/// < second scale factor of the shape
+	sf::Vector2f m_second_ScaleFactor;					/// < second scale factor of the shape
 	
 	sf::ConvexShape m_shape;							/// < shape of the button
 };

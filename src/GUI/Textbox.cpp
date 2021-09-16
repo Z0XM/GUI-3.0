@@ -6,6 +6,7 @@ Textbox::Textbox(const sf::Vector2f size, int class_id)
 	:Entity(class_id)
 {
 	m_input_enabled = false;
+	m_newLine_enabled = false;
 	m_alignment = TextAlign::CENTER;
 	setSize(size);
 }
@@ -22,19 +23,24 @@ Textbox::~Textbox()
 {
 }
 
-void Textbox::setInputEnabled()
+void Textbox::setInputEnabled(bool enable)
 {
-	m_input_enabled = true;
-}
-
-void Textbox::setInputDisabled()
-{
-	m_input_enabled = false;
+	m_input_enabled = enable;
 }
 
 bool Textbox::isInputEnabled()
 {
 	return m_input_enabled;
+}
+
+void gui::Textbox::setNewlineEnabled(bool enable)
+{
+	m_newLine_enabled = enable;
+}
+
+bool gui::Textbox::isNewLineEnabled()
+{
+	return m_newLine_enabled;
 }
 
 void Textbox::setSize(const sf::Vector2f& size)
@@ -190,11 +196,11 @@ Entity* Textbox::isHit(const sf::Vector2f& point)
 }
 void Textbox::activateSelection()
 {
-	m_isSelected = true;
+	m_selected = true;
 }
 void Textbox::deactivateSelection()
 {
-	m_isSelected = false;
+	m_selected = false;
 }
 
 void Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const
