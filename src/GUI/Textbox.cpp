@@ -109,6 +109,10 @@ void Textbox::setTextOutlineThickness(float thickness)
 {
 	m_text.setOutlineThickness(thickness);
 }
+void Textbox::clearString()
+{
+	m_text.setString("");
+}
 std::string Textbox::getString() const
 {
 	return m_text.getString();
