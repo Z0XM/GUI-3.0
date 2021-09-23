@@ -133,9 +133,9 @@ Renderer::Renderer()
 	page3.setHeader(true, true, true);
 
 
-	page.rotate(45);
+	/*page.rotate(45);
 	page2.rotate(-45);
-	page.scale(1.5, 1.5);
+	page.scale(1.5, 1.5);*/
 
 
 	page.addEntity(text);
@@ -150,6 +150,15 @@ Renderer::Renderer()
 	page.addEntity(page2);
 
 	frame.addEntity(rectB);
+
+	frame.push_in_navigationOrder(rectB);
+	frame.push_in_navigationOrder(button);
+	frame.push_in_navigationOrder(button2);
+	frame.push_in_navigationOrder(slider);
+
+	rectB.setAction([this] {std::cout << "YO :)\n"; });
+	button.setAction([this] {std::cout << "NO . \n"; });
+	button2.setAction([this] {std::cout << "OK !\n"; });
 
 }
 

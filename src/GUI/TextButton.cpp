@@ -68,13 +68,13 @@ void TextButton::setSelectionScale(const sf::Vector2f& scaleFactor)
 }
 void TextButton::activateSelection()
 {
+	if (!m_selected) switchProperties();
 	m_selected = true;
-	switchProperties();
 }
 void TextButton::deactivateSelection()
 {
+	if (m_selected) switchProperties();
 	m_selected = false;
-	switchProperties();
 }
 
 

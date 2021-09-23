@@ -130,6 +130,7 @@ Frame::Frame()
 	m_window = nullptr;
 	m_mouseHoveringOn = nullptr;
 	m_clicked = nullptr;
+	m_navigator = -1;
 
 	m_functional_object = FunctionalObject::FRAME;
 }
@@ -186,6 +187,11 @@ void Frame::removeName(const std::string& name)
 	m_nameMap.erase(name);
 }
 
+void Frame::push_in_navigationOrder(Entity& entity) 
+{
+	m_navigationOrder.push_back(&entity);
+}
+
 Entity* Frame::getByID(unsigned int id) const
 {
 	return m_entityMap.at(id);
@@ -236,25 +242,29 @@ void Frame::update()
 			// if mouse is moved while being held on something
 			if (m_clicked != nullptr && m_clicked->actionEvent == Entity::ActionEvent::MOUSEHELD && m_clicked->hasAction()) {
 				// if functional parent is frame or nullptr then object does not depend bounds (control by other entities) 
-				if(m_clicked->getFunctionalParent() == nullptr ||  m_clicked->getFunctionalParent()->getFunctionalFrame() == FunctionalObject::FRAME) {
+				if(m_clicked->getFunctionalParent() == nullptr || m_clicked->getFunctionalParent()->getFunctionalFrame() == FunctionalObject::FRAME)
 					m_clicked->callAction();
-				}
+				
 				// if functional parent is page then its bounds are decided by the local bounds visible on the functional parent of its functional parent
 				else if(m_clicked->getFunctionalParent()->getFunctionalFrame() == FunctionalObject::PAGE &&
-					m_clicked->getFunctionalParent()->getLocalBounds().contains(
-						((Page*)(m_clicked->getFunctionalParent()))->getInverseTransform().transformPoint(
-							((Page*)(m_clicked->getFunctionalParent()))->getFunctionalParent()->getMousePosition()
+						m_clicked->getFunctionalParent()->getLocalBounds().contains(
+							((Page*)(m_clicked->getFunctionalParent()))->getInverseTransform().transformPoint(
+								((Page*)(m_clicked->getFunctionalParent()))->getFunctionalParent()->getMousePosition()
+							)
 						)
-					))
+					) 
 					m_clicked->callAction();
+
 				// if functional parent is dropdown then its bounds are decided by the local bounds visible on the functional parent of its functional parent
 				else if (m_clicked->getFunctionalParent()->getFunctionalFrame() == FunctionalObject::DROPDOWN &&
-					m_clicked->getFunctionalParent()->getLocalBounds().contains(
-						((Dropdown*)(m_clicked->getFunctionalParent()))->getInverseTransform().transformPoint(
-							((Dropdown*)(m_clicked->getFunctionalParent()))->getFunctionalParent()->getMousePosition()
+						m_clicked->getFunctionalParent()->getLocalBounds().contains(
+							((Dropdown*)(m_clicked->getFunctionalParent()))->getInverseTransform().transformPoint(
+								((Dropdown*)(m_clicked->getFunctionalParent()))->getFunctionalParent()->getMousePosition()
+							)
 						)
-					))
+					)
 					m_clicked->callAction();
+
 				// if out of bounds
 				else {
 					m_mouseHoveringOn->deactivateSelection();
@@ -295,6 +305,11 @@ bool Frame::pollEvents(sf::Event e)
 {
 	// if an entity is clicked
 	if (e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left) {
+		if (m_navigator != -1) {
+			m_navigationOrder[m_navigator]->deactivateSelection();
+			m_navigator = -1;
+		}
+
 		m_clicked = m_mouseHoveringOn;
 
 		if (m_clicked != nullptr && m_clicked->actionEvent == Entity::ActionEvent::PRESS && m_clicked->hasAction())
@@ -304,6 +319,11 @@ bool Frame::pollEvents(sf::Event e)
 	}
 	// if an entity is released
 	else if (e.type == sf::Event::MouseButtonReleased) {
+		if (m_navigator != -1) {
+			m_navigationOrder[m_navigator]->deactivateSelection();
+			m_navigator = -1;
+		}
+
 		if (m_clicked != nullptr && m_clicked == m_mouseHoveringOn && e.mouseButton.button == sf::Mouse::Left)
 		{
 			if (m_clicked->actionEvent == Entity::ActionEvent::RELEASE && m_clicked->hasAction())
@@ -315,17 +335,13 @@ bool Frame::pollEvents(sf::Event e)
 
 		return true;
 	}
-	// if mouse wheel is scrolled while mouse is over a page or dropdown
-	else if (e.type == sf::Event::MouseWheelScrolled) {
-		bool wasEventPolled = false;
-		// poll events in pages and dropdowns
-		for (auto it = m_functionalParents.begin(); it != m_functionalParents.end() && !wasEventPolled; it++) {
-			if (it->second->getFunctionalFrame() != 0 && it->second->contains(getMousePosition()))
-				wasEventPolled = it->second->pollEvents(e);
-		}
-	}
-	// if text is entered while textbox is seleccted
+	// if text is entered while textbox is selected
 	else if (m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX && ((Textbox*)m_clicked)->isInputEnabled() && e.type == sf::Event::TextEntered) {
+		if (m_navigator != -1) {
+			m_navigationOrder[m_navigator]->deactivateSelection();
+			m_navigator = -1;
+		}
+		
 		Textbox& textbox = *((Textbox*)m_clicked);
 		char c = e.text.unicode;
 		if (c == 13) { // enter is pressed
@@ -340,8 +356,56 @@ bool Frame::pollEvents(sf::Event e)
 			}
 		}
 		else textbox.setString(textbox.getString() + c); // normal characters or numbers
+
+		return true;
 	}
 
+	else if (e.type == sf::Event::KeyPressed){
+		if(e.key.code == sf::Keyboard::Return){ 
+			if (m_navigator != -1) {
+				m_navigationOrder[m_navigator]->deactivateSelection();
+				m_navigationOrder[m_navigator]->callAction();
+			}
+			m_navigator = -1;
+		}
+		else if (e.key.code == sf::Keyboard::Left || e.key.code == sf::Keyboard::Right){
+			if (m_navigator != -1 && Entity::getClassID(*m_navigationOrder[m_navigator]) == GUI_ID_SLIDER)
+			{
+				float shift = 2.5;
+				if (e.key.code == sf::Keyboard::Left) shift *= -1;
+				((Slider*)m_navigationOrder[m_navigator])->shiftOffset(shift);
+			}
+		}
+		else if (e.key.code == sf::Keyboard::Tab || e.key.code == sf::Keyboard::Down || e.key.code == sf::Keyboard::Up) {
+			if (m_navigator != -1)
+				m_navigationOrder[m_navigator]->deactivateSelection();
+
+			int add = 1;
+			if (e.key.code == sf::Keyboard::Up)add = -1;
+
+			m_navigator = (m_navigator + add + m_navigationOrder.size()) % m_navigationOrder.size();
+
+			m_navigationOrder[m_navigator]->activateSelection();
+
+			return true;
+		}
+		else {
+			if (m_navigator != -1) {
+				m_navigationOrder[m_navigator]->deactivateSelection();
+				m_navigator = -1;
+			}
+		}
+	}
+	else {
+		bool wasEventPolled = false;
+		// poll events in pages and dropdowns
+		for (auto it = m_functionalParents.begin(); it != m_functionalParents.end() && !wasEventPolled; it++) {
+			if (it->second->getFunctionalFrame() != 0 && it->second->contains(getMousePosition()))
+				wasEventPolled = it->second->pollEvents(e);
+		}
+
+		return wasEventPolled;
+	}
 	return false;
 }
 void Frame::draw()

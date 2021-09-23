@@ -152,13 +152,13 @@ Entity* Button::isHit(const sf::Vector2f& point)
 }
 void Button::activateSelection()
 {
+	if(!m_selected) switchProperties();
 	m_selected = true;
-	switchProperties();
 }
 void Button::deactivateSelection()
 {
+	if (m_selected) switchProperties();
 	m_selected = false;
-	switchProperties();
 }
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {

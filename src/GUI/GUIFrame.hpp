@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <map>
 #include <unordered_map>
 #include <functional>
 #include <vector>
@@ -12,13 +13,13 @@ namespace gui {
 /// GUI Class Ids 
 /// Used for generating entity Id, makes up for the 8 most significant bits of Id 
 ////////////////////////////////////////////////////////////
-constexpr int GUI_ID_TEXTBOX = 1;
-constexpr int GUI_ID_BUTTON = 2;
-constexpr int GUI_ID_TEXTBUTTON = 3;
-constexpr int GUI_ID_SLIDER = 4;
-constexpr int GUI_ID_SCROLL = 5;
-constexpr int GUI_ID_DROPDOWN = 6;
-constexpr int GUI_ID_PAGE = 7; 
+constexpr int GUI_ID_TEXTBOX =		7;
+constexpr int GUI_ID_SLIDER =		6;
+constexpr int GUI_ID_BUTTON =		5;
+constexpr int GUI_ID_TEXTBUTTON =	4;
+constexpr int GUI_ID_SCROLL =		3;
+constexpr int GUI_ID_DROPDOWN =		2;
+constexpr int GUI_ID_PAGE =			1; 
 
 class Functional {
 public:
@@ -342,6 +343,15 @@ public:
 	////////////////////////////////////////////////////////////
 	static void removeName(const std::string& name);
 
+	///////////////////////////////////////////////////////////
+	/// \brief Add entity to key press navigation order 
+	///	
+	/// Entities added in navigation order may be different from entities attached to frame
+	/// 
+	/// \param entity entity to be added in navigation order
+	//////////////////////////////////////////////////////////
+	void push_in_navigationOrder(Entity& entity);
+
 	////////////////////////////////////////////////////////////
 	/// \brief Get the entity attached to the object by Id
 	/// 
@@ -442,8 +452,11 @@ private:
 	Entity* m_mouseHoveringOn;											/// < last Entity over which mouse button was
 	Entity *m_clicked;													/// < last Entity on which mouse button was pressed
 	sf::Vector2f m_lastMousePos;										/// < last mouse Position on the current window
-	std::unordered_map<unsigned int, Entity*> m_entityMap;				/// < maps gui Ids to their respective entities
+	int m_navigator;													/// < iterator for navigation through key press
+
+	std::map<unsigned int, Entity*> m_entityMap;						/// < maps gui Ids to their respective entities
 	std::unordered_map<unsigned int, Functional*> m_functionalParents;	/// < maps gui Ids of functional parents to their respective entities (also in entityMap)
+	std::vector<Entity*> m_navigationOrder;								/// < key press navigation order of entities
 
 	static std::unordered_map<std::string, unsigned int> m_nameMap;		/// < maps from names to the gui Id of their respective entities, Single Map for all Frame objects
 };

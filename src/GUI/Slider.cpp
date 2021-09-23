@@ -26,14 +26,22 @@ void Slider::setVariable(float& var, float lower_limit, float upper_limit)
 	action = [this] {
 		m_offset = getInverseTransform().transformPoint(getFunctionalParent()->getMousePosition()).x;
 
-		// check if offset is in range
-		m_offset = std::max(m_offset, 0.f);
-		m_offset = std::min(m_offset, m_box.getSize().x - m_bar.getLocalBounds().width);
-
-		// map offset to variable
-		*m_variable = m_limits[0] + (m_offset / (m_box.getSize().x - m_bar.getLocalBounds().width)) * (m_limits[1] - m_limits[0]);
+		shiftOffset(0);
 	};
 }
+
+void Slider::shiftOffset(float shift)
+{
+	m_offset += shift;
+
+	// check if offset is in range
+	m_offset = std::max(m_offset, 0.f);
+	m_offset = std::min(m_offset, m_box.getSize().x - m_bar.getLocalBounds().width);
+
+	// map offset to variable
+	*m_variable = m_limits[0] + (m_offset / (m_box.getSize().x - m_bar.getLocalBounds().width)) * (m_limits[1] - m_limits[0]);
+}
+
 void Slider::setBarFillColor(sf::Color color)
 {
 	m_bar.setFillColor(color);

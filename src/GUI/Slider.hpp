@@ -25,6 +25,14 @@ public:
 	void setVariable(float& var, float lower_limit, float upper_limit);
 
 	////////////////////////////////////////////////////////////
+	/// \brief Increase object's offset by shift
+	/// 
+	/// \param shift Value to shift offset by
+	/// 
+	////////////////////////////////////////////////////////////
+	void shiftOffset(float shift);
+
+	////////////////////////////////////////////////////////////
 	/// \brief Set the fill color of the slider bar
 	///
 	/// By default, the slider bar's fill color is opaque white
