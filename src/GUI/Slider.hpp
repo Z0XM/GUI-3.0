@@ -105,7 +105,6 @@ public:
 
 	void setInputEnabled() = delete;
 	void setInputDisabled() = delete;
-	bool isInputEnabled() = delete;
 
 	////////////////////////////////////////////////////////////
 	// Member data

@@ -94,8 +94,6 @@ public:
 
 	void setInputEnabled(bool) = delete;
 	bool isInputEnabled() = delete;
-	void setNewLineEnabled(bool) = delete;
-	bool isNewLineEnabled() = delete;
 
 private:
 

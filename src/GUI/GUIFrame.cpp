@@ -297,6 +297,7 @@ void Frame::update()
 				}
 			}
 		}
+
 		//update last mouse pos
 		m_lastMousePos = getMousePosition();
 	}
@@ -305,77 +306,79 @@ bool Frame::pollEvents(sf::Event e)
 {
 	// if an entity is clicked
 	if (e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left) {
-		if (m_navigator != -1) {
+
+		if (m_navigator != -1) { // deactivate tab navigation
 			m_navigationOrder[m_navigator]->deactivateSelection();
 			m_navigator = -1;
 		}
 
 		m_clicked = m_mouseHoveringOn;
-
+		
+		// trigger entity's action
 		if (m_clicked != nullptr && m_clicked->actionEvent == Entity::ActionEvent::PRESS && m_clicked->hasAction())
 			m_clicked->callAction();
 
-		return true;
+		return true; // event occurred
 	}
 	// if an entity is released
 	else if (e.type == sf::Event::MouseButtonReleased) {
-		if (m_navigator != -1) {
+
+		if (m_navigator != -1) { // deactivate tab navigation
 			m_navigationOrder[m_navigator]->deactivateSelection();
 			m_navigator = -1;
 		}
 
-		if (m_clicked != nullptr && m_clicked == m_mouseHoveringOn && e.mouseButton.button == sf::Mouse::Left)
-		{
-			if (m_clicked->actionEvent == Entity::ActionEvent::RELEASE && m_clicked->hasAction())
+		// trigger action
+		if (m_clicked != nullptr && m_clicked == m_mouseHoveringOn && e.mouseButton.button == sf::Mouse::Left){
+			if (m_clicked->actionEvent == Entity::ActionEvent::RELEASE && m_clicked->hasAction()) {
 				m_clicked->callAction();
+			
+				return true; // event occurred
+			}
 		}
+
 		// textboxes whose input is enabled dont lose thier click unless something else is clicked
-		if(m_clicked != nullptr && (Entity::getClassID(*m_clicked) != GUI_ID_TEXTBOX || !((Textbox*)m_clicked)->isInputEnabled()))
+		if (m_clicked != nullptr && (Entity::getClassID(*m_clicked) != GUI_ID_TEXTBOX || !((Textbox*)m_clicked)->isInputEnabled())) {
 			m_clicked = nullptr;
-
-		return true;
-	}
-	// if text is entered while textbox is selected
-	else if (m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX && ((Textbox*)m_clicked)->isInputEnabled() && e.type == sf::Event::TextEntered) {
-		if (m_navigator != -1) {
-			m_navigationOrder[m_navigator]->deactivateSelection();
-			m_navigator = -1;
+				
+			return true; // event occurred
 		}
-		
-		Textbox& textbox = *((Textbox*)m_clicked);
-		char c = e.text.unicode;
-		if (c == 13) { // enter is pressed
-			if (textbox.isNewLineEnabled())textbox.setString(textbox.getString() + '\n');
-			else m_clicked = nullptr;
-		}
-		else if (c == 8) { // backspace is pressed
-			std::string str(textbox.getString());
-			if (str.size() > 0) {
-				str.erase(str.size() - 1);
-				textbox.setString(str);
-			}
-		}
-		else textbox.setString(textbox.getString() + c); // normal characters or numbers
-
-		return true;
 	}
 
-	else if (e.type == sf::Event::KeyPressed){
+	else if (e.type == sf::Event::KeyPressed)
+	{
 		if(e.key.code == sf::Keyboard::Return){ 
-			if (m_navigator != -1) {
-				m_navigationOrder[m_navigator]->deactivateSelection();
-				m_navigationOrder[m_navigator]->callAction();
+			
+			// if textbox was clicked, set clicked to null 
+			if (m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX && ((Textbox*)m_clicked)->isInputEnabled()) {
+				m_clicked = nullptr;
+				
+				return true; // event occurred
 			}
-			m_navigator = -1;
+
+			// else set clicked to navigated entity
+			else if (m_navigator != -1) {
+				m_clicked = m_navigationOrder[m_navigator];
+
+				// slider is an exception
+				if (Entity::getClassID(*m_clicked) == GUI_ID_SLIDER) 
+					m_clicked = nullptr;
+
+				return true; // event occurred
+			}
 		}
 		else if (e.key.code == sf::Keyboard::Left || e.key.code == sf::Keyboard::Right){
-			if (m_navigator != -1 && Entity::getClassID(*m_navigationOrder[m_navigator]) == GUI_ID_SLIDER)
-			{
+			// move slider bar accordingly
+			if (m_navigator != -1 && Entity::getClassID(*m_navigationOrder[m_navigator]) == GUI_ID_SLIDER){
 				float shift = 2.5;
 				if (e.key.code == sf::Keyboard::Left) shift *= -1;
 				((Slider*)m_navigationOrder[m_navigator])->shiftOffset(shift);
+
+				return true; // event occurred
 			}
 		}
+
+		// key navigation 
 		else if (e.key.code == sf::Keyboard::Tab || e.key.code == sf::Keyboard::Down || e.key.code == sf::Keyboard::Up) {
 			if (m_navigator != -1)
 				m_navigationOrder[m_navigator]->deactivateSelection();
@@ -387,15 +390,48 @@ bool Frame::pollEvents(sf::Event e)
 
 			m_navigationOrder[m_navigator]->activateSelection();
 
-			return true;
+			m_clicked = nullptr;
+
+			return true; // event occurred
 		}
-		else {
-			if (m_navigator != -1) {
-				m_navigationOrder[m_navigator]->deactivateSelection();
-				m_navigator = -1;
+	}
+	else if (e.type == sf::Event::KeyReleased){
+		if (e.key.code == sf::Keyboard::Return){
+			// if enter is pressed trigger action on navigated entity
+			if (m_clicked != nullptr && m_navigator != -1 && m_clicked->getID() == m_navigationOrder[m_navigator]->getID()) {
+				m_clicked->deactivateSelection();
+				if(m_clicked->hasAction())m_clicked->callAction();
+
+				// set clicked to null, textbox with input is exception
+				if (Entity::getClassID(*m_clicked) != GUI_ID_TEXTBOX || !((Textbox*)m_clicked)->isInputEnabled())
+					m_clicked = nullptr;
+
+				return true; // event occurred
 			}
 		}
 	}
+
+	// if text is entered while textbox is selected
+	else if (e.type == sf::Event::TextEntered) {
+			if (e.text.unicode != 9 && e.text.unicode != 13 // 9 -> Tab, 13 -> Enter 
+				&& m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX && ((Textbox*)m_clicked)->isInputEnabled()) {
+
+			Textbox* textbox = ((Textbox*)m_clicked);
+			
+			char c = e.text.unicode;
+			if (c == 8) { // backspace is pressed
+				std::string str(textbox->getString());
+				if (str.size() > 0) {
+					str.erase(str.size() - 1);
+					textbox->setString(str);
+				}
+			}
+			else textbox->setString(textbox->getString() + c); // normal characters or numbers
+
+			return true; // event occurred
+		}
+	}
+
 	else {
 		bool wasEventPolled = false;
 		// poll events in pages and dropdowns
@@ -404,9 +440,10 @@ bool Frame::pollEvents(sf::Event e)
 				wasEventPolled = it->second->pollEvents(e);
 		}
 
-		return wasEventPolled;
+		return wasEventPolled; // return event
 	}
-	return false;
+
+	return false; // event did not occur
 }
 void Frame::draw()
 {

@@ -49,6 +49,8 @@ Renderer::Renderer()
 	text.setTextFillColor(sf::Color::White);
 	text.setFont(font);
 	text.setString("TextButton");
+	text.setInputEnabled(true);
+
 
 	slider.setSize({ 80, 40 });
 	slider.setPosition(300, 5);
@@ -155,6 +157,7 @@ Renderer::Renderer()
 	frame.push_in_navigationOrder(button);
 	frame.push_in_navigationOrder(button2);
 	frame.push_in_navigationOrder(slider);
+	frame.push_in_navigationOrder(text);
 
 	rectB.setAction([this] {std::cout << "YO :)\n"; });
 	button.setAction([this] {std::cout << "NO . \n"; });

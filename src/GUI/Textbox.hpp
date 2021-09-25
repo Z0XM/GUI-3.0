@@ -53,22 +53,6 @@ public:
     bool isInputEnabled();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Enable/Disable object to take a newline character as input from the return/enter key
-    /// 
-    /// \param enable -> true to enable, false to disable
-    ///
-    ////////////////////////////////////////////////////////////
-    void setNewlineEnabled(bool enable);
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Whether new line is enabled or not
-    ///
-    /// \return true if new line enabled, false otherwise
-    /// 
-    ////////////////////////////////////////////////////////////
-    bool isNewLineEnabled();
-
-    ////////////////////////////////////////////////////////////
     /// \brief Set the size of the box
     ///
     /// \param size -> New size

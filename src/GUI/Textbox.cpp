@@ -33,16 +33,6 @@ bool Textbox::isInputEnabled()
 	return m_input_enabled;
 }
 
-void gui::Textbox::setNewlineEnabled(bool enable)
-{
-	m_newLine_enabled = enable;
-}
-
-bool gui::Textbox::isNewLineEnabled()
-{
-	return m_newLine_enabled;
-}
-
 void Textbox::setSize(const sf::Vector2f& size)
 {
 	m_box.setSize(size);
