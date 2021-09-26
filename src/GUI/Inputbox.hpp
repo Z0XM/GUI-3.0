@@ -6,11 +6,30 @@ namespace gui {
 class Inputbox : public TextButton {
 
 public:
+
+	////////////////////////////////////////////////////////////
+	/// \brief Default constructor
+	///
+	/// \param size -> size of the box
+	/// 
+    ////////////////////////////////////////////////////////////
 	Inputbox(const sf::Vector2f& size = sf::Vector2f(0,0));
 
+	////////////////////////////////////////////////////////////
+	/// \brief check whether object is in input mode
+	///
+	/// \return true if in input mode, false otherwise
+	/// 
+	////////////////////////////////////////////////////////////
 	bool isInInputMode() const;
 
-
+	////////////////////////////////////////////////////////////
+	/// \brief Draws the object to the target applying its states
+	/// 
+	/// \param target -> Render target to draw to
+	/// \param states -> Current render states
+	/// 
+	////////////////////////////////////////////////////////////
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
 
 	////////////////////////////////////////////////////////////
@@ -27,10 +46,16 @@ public:
 
 private:
 
+	////////////////////////////////////////////////////////////
+	/// \brief force properties to a state
+	/// 
+	/// \showHighlight true for selected state, false for original
+	///
+	////////////////////////////////////////////////////////////
 	void updateProperties(bool shouldHighlight);
 
-	bool m_input_mode;
-	bool m_highlighted;
+	bool m_input_mode;			/// < whether object is in input mode
+	bool m_highlighted;			/// < whether object is highlighted or not
 };
 
 } // namespace gui
