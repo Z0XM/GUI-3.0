@@ -25,9 +25,9 @@ Renderer::Renderer()
 
 	button.setSize({ 80, 40 });
 	button.setPosition(20, 5);
-	button.setBoxFillColor(sf::Color::Transparent);
-	button.setBoxOutlineColor(sf::Color(160, 32, 240));
-	button.setBoxOutlineThickness(3);
+	button.setFillColor(sf::Color::Transparent);
+	button.setOutlineColor(sf::Color(160, 32, 240));
+	button.setOutlineThickness(3);
 	button.setSelectionFillColor(sf::Color(160, 32, 240, 126));
 	button.setSelectionOutlineColor(sf::Color(124, 163, 251));
 	button.setSelectionOutlineThickness(5);
@@ -42,9 +42,9 @@ Renderer::Renderer()
 
 	text.setSize({ 80, 40 });
 	text.setPosition(400, 5);
-	text.setBoxFillColor(sf::Color::Transparent);
-	text.setBoxOutlineColor(sf::Color(160, 32, 240));
-	text.setBoxOutlineThickness(3);
+	text.setFillColor(sf::Color::Transparent);
+	text.setOutlineColor(sf::Color(160, 32, 240));
+	text.setOutlineThickness(3);
 	text.setCharacterSize(22);
 	text.setTextFillColor(sf::Color::White);
 	text.setFont(font);
@@ -56,9 +56,9 @@ Renderer::Renderer()
 	slider.setPosition(300, 5);
 	slider.setBarFillColor(sf::Color::Red);
 	slider.setBarSelectionColor(sf::Color::Yellow);
-	slider.setBoxFillColor(sf::Color::Transparent);
-	slider.setBoxOutlineColor(sf::Color::Blue);
-	slider.setBoxOutlineThickness(3);
+	slider.setFillColor(sf::Color::Transparent);
+	slider.setOutlineColor(sf::Color::Blue);
+	slider.setOutlineThickness(3);
 	slider.setTextFillColor(sf::Color::White);
 	slider.setFont(font);
 	slider.setCharacterSize(22);
@@ -89,9 +89,9 @@ Renderer::Renderer()
 	drop.setPosition(20, 20);
 	drop.setFillColor(sf::Color(255, 255, 255, 26));
 
-	dbutton1.setBoxFillColor(sf::Color::Transparent);
-	dbutton1.setBoxOutlineColor(sf::Color(160, 32, 240));
-	dbutton1.setBoxOutlineThickness(3);
+	dbutton1.setFillColor(sf::Color::Transparent);
+	dbutton1.setOutlineColor(sf::Color(160, 32, 240));
+	dbutton1.setOutlineThickness(3);
 	dbutton1.setSelectionFillColor(sf::Color(160, 32, 240, 126));
 	dbutton1.setSelectionOutlineColor(sf::Color(124, 163, 251));
 	dbutton1.setSelectionOutlineThickness(5);

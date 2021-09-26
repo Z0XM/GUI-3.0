@@ -23,7 +23,7 @@ public:
 	/// \param color -> New fill color of the box
 	///
 	////////////////////////////////////////////////////////////
-	void setBoxFillColor(const sf::Color& color) override;
+	void setFillColor(const sf::Color& color) override;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Set the outline color of the box
@@ -33,7 +33,7 @@ public:
 	/// \param colorc-> New outline color of the box
 	///
 	////////////////////////////////////////////////////////////
-	void setBoxOutlineColor(const sf::Color& color) override;
+	void setOutlineColor(const sf::Color& color) override;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Set the thickness of the box's outline
@@ -46,7 +46,7 @@ public:
 	/// \param thickness -> New outline thickness, in pixels
 	///
 	////////////////////////////////////////////////////////////
-	void setBoxOutlineThickness(float thickness) override;
+	void setOutlineThickness(float thickness) override;
 
 	////////////////////////////////////////////////////////////
 	/// \brief Set the color of the button box upon selection

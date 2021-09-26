@@ -71,17 +71,17 @@ void Dropdown::setHeaderSize(const sf::Vector2f& headerSize)
 }
 void Dropdown::setHeaderColor(const sf::Color& color)
 {
-	m_header.setBoxFillColor(color);
+	m_header.setFillColor(color);
 	m_header.setSelectionFillColor(color);
 }
 void Dropdown::setHeaderOutlineThickness(float thickness)
 {
-	m_header.setBoxOutlineThickness(thickness);
+	m_header.setOutlineThickness(thickness);
 	m_header.setSelectionOutlineThickness(thickness);
 }
 void Dropdown::setHeaderOutlineColor(const sf::Color& color)
 {
-	m_header.setBoxOutlineColor(color);
+	m_header.setOutlineColor(color);
 	m_header.setSelectionOutlineColor(color);
 }
 void Dropdown::setMinimiseButtonColor(const sf::Color& color)

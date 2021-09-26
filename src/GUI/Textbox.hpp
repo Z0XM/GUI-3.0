@@ -157,7 +157,7 @@ public:
     /// \param color -> New fill color of the box
     ///
     ////////////////////////////////////////////////////////////
-    virtual void setBoxFillColor(const sf::Color& color);
+    virtual void setFillColor(const sf::Color& color);
 
     ////////////////////////////////////////////////////////////
     /// \brief Set the outline color of the box
@@ -167,7 +167,7 @@ public:
     /// \param color -> New outline color of the box
     ///
     ////////////////////////////////////////////////////////////
-    virtual void setBoxOutlineColor(const sf::Color& color);
+    virtual void setOutlineColor(const sf::Color& color);
 
     ////////////////////////////////////////////////////////////
     /// \brief Set the thickness of the box's outline
@@ -180,7 +180,7 @@ public:
     /// \param thickness -> New outline thickness, in pixels
     ///
     ////////////////////////////////////////////////////////////
-    virtual void setBoxOutlineThickness(float thickness);
+    virtual void setOutlineThickness(float thickness);
 
     ////////////////////////////////////////////////////////////
     /// \brief Change the source texture of the shape
@@ -312,7 +312,7 @@ public:
     ///
     ////////////////////////////////////////////////////////////
 
-    const sf::Color& getBoxFillColor() const;
+    const sf::Color& getFillColor() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the outline color of the box
@@ -320,7 +320,7 @@ public:
     /// \return Outline color of the box
     ///
     ////////////////////////////////////////////////////////////
-    const sf::Color& getBoxOutlineColor() const;
+    const sf::Color& getOutlineColor() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the outline thickness of the box
@@ -328,7 +328,7 @@ public:
     /// \return Outline thickness of the box, in pixels
     ///
     ////////////////////////////////////////////////////////////
-    float getBoxOutlineThickness() const;
+    float getOutlineThickness() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the source texture of the shape
@@ -472,11 +472,11 @@ public:
     // Member data
     ////////////////////////////////////////////////////////////
 protected:
-	sf::RectangleShape m_box;    /// < box object of textbox
-    sf::Text m_text;             /// < text object of textbox
-    TextAlign m_alignment;       /// < alignment of text with the box
-    bool m_input_enabled;        /// < whether textbox will take keyboard inputs
-    bool m_newLine_enabled;      /// < whether return/enter key will input a newline;
+	sf::RectangleShape m_box;       /// < box object of textbox
+    mutable sf::Text m_text;        /// < text object of textbox, mutable for cursor updating
+    TextAlign m_alignment;          /// < alignment of text with the box
+    bool m_input_enabled;           /// < whether textbox will take keyboard inputs
+    bool m_cursor_enabled;          /// < whether cursor will be displayed or not
 };
 
 } // namespace gui

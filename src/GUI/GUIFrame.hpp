@@ -13,7 +13,8 @@ namespace gui {
 /// GUI Class Ids 
 /// Used for generating entity Id, makes up for the 8 most significant bits of Id 
 ////////////////////////////////////////////////////////////
-constexpr int GUI_ID_TEXTBOX =		7;
+constexpr int GUI_ID_TEXTBOX =		8;
+constexpr int GUI_ID_INPUTBOX =		7;
 constexpr int GUI_ID_SLIDER =		6;
 constexpr int GUI_ID_BUTTON =		5;
 constexpr int GUI_ID_TEXTBUTTON =	4;

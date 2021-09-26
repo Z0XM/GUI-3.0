@@ -312,6 +312,10 @@ bool Frame::pollEvents(sf::Event e)
 			m_navigator = -1;
 		}
 
+		// if textbox then trigger action to turn off cursor
+		if (m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX)
+			m_clicked->callAction();
+
 		m_clicked = m_mouseHoveringOn;
 		
 		// trigger entity's action
@@ -351,6 +355,7 @@ bool Frame::pollEvents(sf::Event e)
 			
 			// if textbox was clicked, set clicked to null 
 			if (m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX && ((Textbox*)m_clicked)->isInputEnabled()) {
+				m_clicked->callAction();
 				m_clicked = nullptr;
 				
 				return true; // event occurred
@@ -358,6 +363,11 @@ bool Frame::pollEvents(sf::Event e)
 
 			// else set clicked to navigated entity
 			else if (m_navigator != -1) {
+
+				// if textbox then trigger action to turn off cursor
+				if (m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX)
+					m_clicked->callAction();
+
 				m_clicked = m_navigationOrder[m_navigator];
 
 				// slider is an exception
@@ -445,6 +455,7 @@ bool Frame::pollEvents(sf::Event e)
 
 	return false; // event did not occur
 }
+
 void Frame::draw()
 {
 	for (auto it = m_entityMap.begin(); it != m_entityMap.end(); it++) {

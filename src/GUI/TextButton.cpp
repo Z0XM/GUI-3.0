@@ -6,7 +6,7 @@ TextButton::TextButton(const sf::Vector2f& size):
 	Textbox(size, GUI_ID_TEXTBUTTON)
 {
 	actionEvent = ActionEvent::RELEASE;
-
+	
 	m_second_ScaleFactor.x = m_second_ScaleFactor.y = 1;
 	m_second_OutlineThickness = 0;
 	m_second_FillColor = sf::Color::White;
@@ -31,17 +31,17 @@ void TextButton::switchProperties()
 	m_second_ScaleFactor = scaleFactor;
 }
 
-void TextButton::setBoxFillColor(const sf::Color& color)
+void TextButton::setFillColor(const sf::Color& color)
 {
 	if (m_selected) m_second_FillColor = color;
 	else m_box.setFillColor(color);
 }
-void TextButton::setBoxOutlineColor(const sf::Color& color)
+void TextButton::setOutlineColor(const sf::Color& color)
 {
 	if (m_selected) m_second_OutlineColor = color;
 	else m_box.setOutlineColor(color);
 }
-void TextButton::setBoxOutlineThickness(float thickness)
+void TextButton::setOutlineThickness(float thickness)
 {
 	if (m_selected) m_second_OutlineThickness = thickness;
 	else m_box.setOutlineThickness(thickness);

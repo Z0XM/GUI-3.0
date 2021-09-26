@@ -6,7 +6,8 @@ Textbox::Textbox(const sf::Vector2f size, int class_id)
 	:Entity(class_id)
 {
 	m_input_enabled = false;
-	m_newLine_enabled = false;
+	m_cursor_enabled = false;
+
 	m_alignment = TextAlign::CENTER;
 	setSize(size);
 }
@@ -15,8 +16,17 @@ Textbox::Textbox(const sf::Vector2f& size):
 	Entity(GUI_ID_TEXTBOX)
 {
 	m_input_enabled = false;
+	m_cursor_enabled = false;
 	m_alignment = TextAlign::CENTER;
 	setSize(size);
+
+
+	actionEvent = ActionEvent::RELEASE;
+	setAction([this]
+		{
+			m_cursor_enabled = !m_cursor_enabled;
+		}
+	);
 }
 
 Textbox::~Textbox()
@@ -67,15 +77,15 @@ void Textbox::setStyle(sf::Uint32 style)
 {
 	m_text.setStyle(style);
 }
-void Textbox::setBoxFillColor(const sf::Color& color)
+void Textbox::setFillColor(const sf::Color& color)
 {
 	m_box.setFillColor(color);
 }
-void Textbox::setBoxOutlineColor(const sf::Color& color)
+void Textbox::setOutlineColor(const sf::Color& color)
 {
 	m_box.setOutlineColor(color);
 }
-void Textbox::setBoxOutlineThickness(float thickness)
+void Textbox::setOutlineThickness(float thickness)
 {
 	m_box.setOutlineThickness(thickness);
 }
@@ -127,15 +137,15 @@ sf::Uint32 Textbox::getStyle() const
 {
 	return m_text.getStyle();
 }
-const sf::Color& Textbox::getBoxFillColor() const
+const sf::Color& Textbox::getFillColor() const
 {
 	return m_box.getFillColor();
 }
-const sf::Color& Textbox::getBoxOutlineColor() const
+const sf::Color& Textbox::getOutlineColor() const
 {
 	return m_box.getOutlineColor();
 }
-float Textbox::getBoxOutlineThickness() const
+float Textbox::getOutlineThickness() const
 {
 	return m_box.getOutlineThickness();
 }
@@ -200,6 +210,7 @@ void Textbox::deactivateSelection()
 void Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	if (isActive()) {
+
 		// apply tarnsform to box
 		states.transform *= getTransform();
 		target.draw(m_box, states);
@@ -210,7 +221,17 @@ void Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const
 			(m_box.getSize().x - m_text.getGlobalBounds().width) * 0.5f * (int)m_alignment,
 			m_box.getSize().y * 0.5f - m_text.getGlobalBounds().height
 		);
+
+		// apply cursor
+		sf::String str = m_text.getString();
+		if (m_input_enabled && m_cursor_enabled)
+			m_text.setString(str + '|');
+
 		target.draw(m_text, states);
+
+		// remove cursor
+		if (m_input_enabled && m_cursor_enabled)
+			m_text.setString(str);
 	}
 }
 
