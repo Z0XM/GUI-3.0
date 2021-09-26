@@ -297,8 +297,6 @@ private:
 																  makes up for the 24 least significant bits of Id
 };
 
-bool operator==(const Entity& first, const Entity& second);
-bool operator!=(const Entity& first, const Entity& second);
 
 class Frame : Functional {
 public:
@@ -490,3 +488,6 @@ private:
 };
 
 } // namespace gui
+
+bool operator==(const gui::Entity& first, const gui::Entity& second);
+bool operator!=(const gui::Entity& first, const gui::Entity& second);
