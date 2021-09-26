@@ -22,6 +22,8 @@ Inputbox::Inputbox(const sf::Vector2f& size)
 			}
 		}
 	);
+
+	m_blink_counter = 0;
 }
 
 bool Inputbox::isInInputMode() const
@@ -46,14 +48,18 @@ void Inputbox::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 		// apply cursor
 		sf::String str = m_text.getString();
-		if (m_input_mode)
+		if (m_input_mode && m_blink_counter <= m_blink_limit && m_blink_counter >= 0) {
 			m_text.setString(str + '|');
+		}
 
 		target.draw(m_text, states);
 
 		// remove cursor
-		if (m_input_mode)
+		if (m_input_mode) {
 			m_text.setString(str);
+			m_blink_counter++;
+		}
+		if (m_blink_counter > m_blink_limit)m_blink_counter = -m_blink_limit;
 	}
 }
 
