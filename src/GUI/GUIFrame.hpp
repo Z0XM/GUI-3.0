@@ -258,6 +258,14 @@ public:
 private:
 
 	////////////////////////////////////////////////////////////
+	/// \brief check if action of the object is nullptr
+	///
+	/// \return false if action is null else true
+	/// 
+	////////////////////////////////////////////////////////////
+	bool hasFunctionalParent() const;
+
+	////////////////////////////////////////////////////////////
 	/// \brief Set the Functional parent of entity
 	///
 	////////////////////////////////////////////////////////////
@@ -288,6 +296,9 @@ private:
 	static unsigned int item_count;							/// < Strictly increasing count of all constructed entities, Used for generating Ids, \
 																  makes up for the 24 least significant bits of Id
 };
+
+bool operator==(const Entity& first, const Entity& second);
+bool operator!=(const Entity& first, const Entity& second);
 
 class Frame : Functional {
 public:
@@ -443,6 +454,22 @@ public:
 	/// 
 	////////////////////////////////////////////////////////////
 	void draw();
+
+	////////////////////////////////////////////////////////////
+	/// \brief check if mouse is hovering over something
+	///
+	/// \return true if mouse is over somehting false otherwise
+	/// 
+	////////////////////////////////////////////////////////////
+	bool isMouseOverSomething() const;
+
+	////////////////////////////////////////////////////////////
+	/// \brief check if something was clicked
+	///
+	/// \return true if something was clicked false otherwise
+	/// 
+	////////////////////////////////////////////////////////////
+	bool wasSomethingClicked() const;
 
 
 	////////////////////////////////////////////////////////////

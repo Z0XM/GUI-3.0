@@ -5,9 +5,6 @@ using namespace gui;
 Textbox::Textbox(const sf::Vector2f size, int class_id)
 	:Entity(class_id)
 {
-	m_input_enabled = false;
-	m_cursor_enabled = false;
-
 	m_alignment = TextAlign::CENTER;
 	setSize(size);
 }
@@ -15,32 +12,12 @@ Textbox::Textbox(const sf::Vector2f size, int class_id)
 Textbox::Textbox(const sf::Vector2f& size):
 	Entity(GUI_ID_TEXTBOX)
 {
-	m_input_enabled = false;
-	m_cursor_enabled = false;
 	m_alignment = TextAlign::CENTER;
 	setSize(size);
-
-
-	actionEvent = ActionEvent::RELEASE;
-	setAction([this]
-		{
-			m_cursor_enabled = !m_cursor_enabled;
-		}
-	);
 }
 
 Textbox::~Textbox()
 {
-}
-
-void Textbox::setInputEnabled(bool enable)
-{
-	m_input_enabled = enable;
-}
-
-bool Textbox::isInputEnabled()
-{
-	return m_input_enabled;
 }
 
 void Textbox::setSize(const sf::Vector2f& size)
@@ -222,16 +199,7 @@ void Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const
 			m_box.getSize().y * 0.5f - m_text.getGlobalBounds().height
 		);
 
-		// apply cursor
-		sf::String str = m_text.getString();
-		if (m_input_enabled && m_cursor_enabled)
-			m_text.setString(str + '|');
-
 		target.draw(m_text, states);
-
-		// remove cursor
-		if (m_input_enabled && m_cursor_enabled)
-			m_text.setString(str);
 	}
 }
 

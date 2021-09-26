@@ -49,8 +49,35 @@ Renderer::Renderer()
 	text.setTextFillColor(sf::Color::White);
 	text.setFont(font);
 	text.setString("TextButton");
-	text.setInputEnabled(true);
 
+
+	ibox.setSize({ 80, 40 });
+	ibox.setPosition(400, 105);
+	ibox.setFillColor(sf::Color::Transparent);
+	ibox.setOutlineColor(sf::Color(160, 32, 240));
+	ibox.setSelectionFillColor(sf::Color::Transparent);
+	ibox.setSelectionOutlineColor(sf::Color::White);
+	ibox.setOutlineThickness(3);
+	ibox.setSelectionOutlineThickness(3);
+
+	ibox2.setSize({ 80, 40 });
+	ibox2.setPosition(400, 205);
+	ibox2.setFillColor(sf::Color::Transparent);
+	ibox2.setOutlineColor(sf::Color(160, 32, 20));
+	ibox2.setSelectionFillColor(sf::Color::Transparent);
+	ibox2.setSelectionOutlineColor(sf::Color::White);
+	ibox2.setOutlineThickness(3);
+	ibox2.setSelectionOutlineThickness(3);
+
+	ibox.setCharacterSize(22);
+	ibox.setTextFillColor(sf::Color::White);
+	ibox.setFont(font);
+	ibox.setString("TextButton");
+
+	ibox2.setCharacterSize(22);
+	ibox2.setTextFillColor(sf::Color::White);
+	ibox2.setFont(font);
+	ibox2.setString("TextButton2");
 
 	slider.setSize({ 80, 40 });
 	slider.setPosition(300, 5);
@@ -118,7 +145,6 @@ Renderer::Renderer()
 	rectB.setPoint(2, { 600, 500 });
 	rectB.setPoint(3, { 300, 500 });
 	rectB.setPosition(10, 10);
-	rectB.setAction([this] {text.setInputEnabled(!text.isInputEnabled()); });
 	page2.addEntity(drop);
 
 	rectB.setFillColor(sf::Color::Red);
@@ -145,6 +171,8 @@ Renderer::Renderer()
 	page.addEntity(button2);
 	page.addEntity(slider);
 	frame.addEntity(page2);
+	page.addEntity(ibox);
+	page.addEntity(ibox2);
 	//page.rotate(45);
 
 	frame.addEntity(page);
@@ -152,12 +180,14 @@ Renderer::Renderer()
 	page.addEntity(page2);
 
 	frame.addEntity(rectB);
+	
 
 	frame.push_in_navigationOrder(rectB);
 	frame.push_in_navigationOrder(button);
 	frame.push_in_navigationOrder(button2);
 	frame.push_in_navigationOrder(slider);
-	frame.push_in_navigationOrder(text);
+	frame.push_in_navigationOrder(ibox);
+	frame.push_in_navigationOrder(ibox2);
 
 	rectB.setAction([this] {std::cout << "YO :)\n"; });
 	button.setAction([this] {std::cout << "NO . \n"; });

@@ -37,22 +37,6 @@ public:
     virtual ~Textbox();
 
     ////////////////////////////////////////////////////////////
-    /// \brief Enable/Disable object to take keyboard text input
-    /// 
-    /// \param enable -> true to enable, false to disable
-    ///
-    ////////////////////////////////////////////////////////////
-    void setInputEnabled(bool enable);
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Whether input is enabled or not
-    ///
-    /// \return true if input enabled, false otherwise
-    /// 
-    ////////////////////////////////////////////////////////////
-    bool isInputEnabled();
-
-    ////////////////////////////////////////////////////////////
     /// \brief Set the size of the box
     ///
     /// \param size -> New size
@@ -475,8 +459,6 @@ protected:
 	sf::RectangleShape m_box;       /// < box object of textbox
     mutable sf::Text m_text;        /// < text object of textbox, mutable for cursor updating
     TextAlign m_alignment;          /// < alignment of text with the box
-    bool m_input_enabled;           /// < whether textbox will take keyboard inputs
-    bool m_cursor_enabled;          /// < whether cursor will be displayed or not
 };
 
 } // namespace gui

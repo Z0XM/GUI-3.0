@@ -19,6 +19,8 @@ private:
 	gui::Textbox text;
 	gui::Dropdown drop;
 
+	gui::Inputbox ibox, ibox2;
+
 	void initWindow();
 public:
 	Renderer();

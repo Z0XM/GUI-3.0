@@ -4,6 +4,7 @@
 #include "Textbox.hpp"
 #include "TextButton.hpp"
 #include "Dropdown.hpp"
+#include "Inputbox.hpp"
 
 #include <iostream>
 
@@ -109,6 +110,11 @@ void Entity::setAction(std::function<void()> func)
 	action = func;
 }
 
+bool gui::Entity::hasFunctionalParent() const
+{
+	return m_functionalParent != nullptr;
+}
+
 void Entity::setFunctionalParentForSubVariables(Functional* parent)
 {
 
@@ -120,6 +126,49 @@ void gui::setFunctionalParent(Entity& entity, Functional* parent)
 
 	entity.setFunctionalParentForSubVariables(parent);
 }
+
+bool operator==(const Entity& first, const Entity& second)
+{
+	return first.getID() == second.getID();
+}
+
+bool operator!=(const Entity& first, const Entity& second)
+{
+	return first.getID() != second.getID();
+}
+
+
+template <typename T>
+bool isEntityOfType(Entity* entity){
+	return false;
+}
+template<> bool isEntityOfType<Textbox>(Entity* entity){
+	return Entity::getClassID(*entity) == GUI_ID_TEXTBOX;
+}
+template<> bool isEntityOfType<Button>(Entity* entity) {
+	return Entity::getClassID(*entity) == GUI_ID_BUTTON;
+}
+template<> bool isEntityOfType<TextButton>(Entity* entity) {
+	return Entity::getClassID(*entity) == GUI_ID_TEXTBUTTON;
+}
+template<> bool isEntityOfType<Slider>(Entity* entity) {
+	return Entity::getClassID(*entity) == GUI_ID_SLIDER;
+}
+template<> bool isEntityOfType<Inputbox>(Entity* entity) {
+	return Entity::getClassID(*entity) == GUI_ID_INPUTBOX;
+}
+template<> bool isEntityOfType<Page>(Entity* entity) {
+	return Entity::getClassID(*entity) == GUI_ID_PAGE;
+}
+template<> bool isEntityOfType<Dropdown>(Entity* entity) {
+	return Entity::getClassID(*entity) == GUI_ID_DROPDOWN;
+}
+template<> bool isEntityOfType<Scroll>(Entity* entity) {
+	return Entity::getClassID(*entity) == GUI_ID_SCROLL;
+}
+
+
+
 
 
 std::unordered_map<std::string, unsigned int> Frame::m_nameMap;
@@ -149,10 +198,10 @@ void Frame::addEntity(Entity& entity)
 	// insert in map
 	m_entityMap.insert(std::make_pair(entity.getID(), &entity));
 
-	if(Entity::getClassID(entity) == GUI_ID_PAGE){
+	if(isEntityOfType<Page>(&entity)){
 		m_functionalParents.insert(std::make_pair(entity.getID(), (Functional*)((Page*)(&entity))));
 	}
-	if(Entity::getClassID(entity) == GUI_ID_DROPDOWN){
+	if(isEntityOfType<Dropdown>(&entity)){
 		m_functionalParents.insert(std::make_pair(entity.getID(), (Functional*)((Dropdown*)(&entity))));
 	}
 	
@@ -234,15 +283,15 @@ void Frame::update()
 	if (m_window->hasFocus()) {
 		// only work if mouse is inside the window
 		if(!contains(getMousePosition())){
-			if (m_mouseHoveringOn != nullptr)m_mouseHoveringOn->deactivateSelection();
+			if (isMouseOverSomething())m_mouseHoveringOn->deactivateSelection();
 			m_mouseHoveringOn = nullptr;
 			m_clicked = nullptr;
 		}
 		else {
 			// if mouse is moved while being held on something
-			if (m_clicked != nullptr && m_clicked->actionEvent == Entity::ActionEvent::MOUSEHELD && m_clicked->hasAction()) {
+			if (wasSomethingClicked() && m_clicked->actionEvent == Entity::ActionEvent::MOUSEHELD && m_clicked->hasAction()) {
 				// if functional parent is frame or nullptr then object does not depend bounds (control by other entities) 
-				if(m_clicked->getFunctionalParent() == nullptr || m_clicked->getFunctionalParent()->getFunctionalFrame() == FunctionalObject::FRAME)
+				if(!m_clicked->hasFunctionalParent() || m_clicked->getFunctionalParent()->getFunctionalFrame() == FunctionalObject::FRAME)
 					m_clicked->callAction();
 				
 				// if functional parent is page then its bounds are decided by the local bounds visible on the functional parent of its functional parent
@@ -286,12 +335,14 @@ void Frame::update()
 				// if mouse leaves previously pointed entity
 				if (m_mouseHoveringOn != currentMouseHoveringOn)
 				{
-					if (m_mouseHoveringOn != nullptr) {
-						m_mouseHoveringOn->deactivateSelection();
+					if (isMouseOverSomething()){
+						// not selected by mouse but selected by navigator
+						if(m_navigator == -1 || *m_navigationOrder[m_navigator] != *m_mouseHoveringOn)
+							m_mouseHoveringOn->deactivateSelection();
 					}
 					m_mouseHoveringOn = currentMouseHoveringOn;
 
-					if (m_mouseHoveringOn != nullptr) {
+					if (isMouseOverSomething()) {
 						m_mouseHoveringOn->activateSelection();
 					}
 				}
@@ -307,19 +358,21 @@ bool Frame::pollEvents(sf::Event e)
 	// if an entity is clicked
 	if (e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left) {
 
-		if (m_navigator != -1) { // deactivate tab navigation
-			m_navigationOrder[m_navigator]->deactivateSelection();
-			m_navigator = -1;
+		if (m_navigator != -1){
+			if (!isMouseOverSomething() || *m_navigationOrder[m_navigator] != *m_mouseHoveringOn) {
+				m_navigationOrder[m_navigator]->deactivateSelection(); // deactivate navigated entity
+			}
+			m_navigator = -1; // necessary
 		}
 
-		// if textbox then trigger action to turn off cursor
-		if (m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX)
+		// if inputbox then trigger action to turn off cursor
+		if (wasSomethingClicked() && isEntityOfType<Inputbox>(m_clicked))
 			m_clicked->callAction();
 
 		m_clicked = m_mouseHoveringOn;
 		
 		// trigger entity's action
-		if (m_clicked != nullptr && m_clicked->actionEvent == Entity::ActionEvent::PRESS && m_clicked->hasAction())
+		if (wasSomethingClicked() && m_clicked->actionEvent == Entity::ActionEvent::PRESS && m_clicked->hasAction())
 			m_clicked->callAction();
 
 		return true; // event occurred
@@ -327,13 +380,15 @@ bool Frame::pollEvents(sf::Event e)
 	// if an entity is released
 	else if (e.type == sf::Event::MouseButtonReleased) {
 
-		if (m_navigator != -1) { // deactivate tab navigation
-			m_navigationOrder[m_navigator]->deactivateSelection();
-			m_navigator = -1;
-		}
+			if (m_navigator != -1) {
+				if (!isMouseOverSomething() || *m_navigationOrder[m_navigator] != *m_mouseHoveringOn) { 
+					m_navigationOrder[m_navigator]->deactivateSelection(); // deactivate navigated entity
+				}
+				m_navigator = -1; // necessary
+			}
 
 		// trigger action
-		if (m_clicked != nullptr && m_clicked == m_mouseHoveringOn && e.mouseButton.button == sf::Mouse::Left){
+		if (wasSomethingClicked() && m_clicked == m_mouseHoveringOn && e.mouseButton.button == sf::Mouse::Left){
 			if (m_clicked->actionEvent == Entity::ActionEvent::RELEASE && m_clicked->hasAction()) {
 				m_clicked->callAction();
 			
@@ -341,21 +396,25 @@ bool Frame::pollEvents(sf::Event e)
 			}
 		}
 
-		// textboxes whose input is enabled dont lose thier click unless something else is clicked
-		if (m_clicked != nullptr && (Entity::getClassID(*m_clicked) != GUI_ID_TEXTBOX || !((Textbox*)m_clicked)->isInputEnabled())) {
+		// inputboxes whose input is enabled dont lose thier click unless something else is clicked
+		if (wasSomethingClicked() && !isEntityOfType<Inputbox>(m_clicked)) {
 			m_clicked = nullptr;
 				
 			return true; // event occurred
 		}
 	}
 
-	else if (e.type == sf::Event::KeyPressed)
-	{
+	else if (e.type == sf::Event::KeyPressed){
 		if(e.key.code == sf::Keyboard::Return){ 
 			
-			// if textbox was clicked, set clicked to null 
-			if (m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX && ((Textbox*)m_clicked)->isInputEnabled()) {
+			// if inputbox was clicked, set clicked to null 
+			if (m_navigator != -1 && wasSomethingClicked() && isEntityOfType<Inputbox>(m_clicked)) {
 				m_clicked->callAction();
+
+				// clicked inputbox must not lose its highlight if it is also the navigated entity
+				if (*m_navigationOrder[m_navigator] == *m_clicked)
+					m_clicked->activateSelection();
+
 				m_clicked = nullptr;
 				
 				return true; // event occurred
@@ -364,14 +423,14 @@ bool Frame::pollEvents(sf::Event e)
 			// else set clicked to navigated entity
 			else if (m_navigator != -1) {
 
-				// if textbox then trigger action to turn off cursor
-				if (m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX)
+				// if inputbox then trigger action to turn off cursor
+				if (wasSomethingClicked() && isEntityOfType<Inputbox>(m_clicked))
 					m_clicked->callAction();
 
 				m_clicked = m_navigationOrder[m_navigator];
 
 				// slider is an exception
-				if (Entity::getClassID(*m_clicked) == GUI_ID_SLIDER) 
+				if (isEntityOfType<Slider>(m_clicked))
 					m_clicked = nullptr;
 
 				return true; // event occurred
@@ -379,7 +438,7 @@ bool Frame::pollEvents(sf::Event e)
 		}
 		else if (e.key.code == sf::Keyboard::Left || e.key.code == sf::Keyboard::Right){
 			// move slider bar accordingly
-			if (m_navigator != -1 && Entity::getClassID(*m_navigationOrder[m_navigator]) == GUI_ID_SLIDER){
+			if (m_navigator != -1 && isEntityOfType<Slider>(m_navigationOrder[m_navigator])){
 				float shift = 2.5;
 				if (e.key.code == sf::Keyboard::Left) shift *= -1;
 				((Slider*)m_navigationOrder[m_navigator])->shiftOffset(shift);
@@ -390,8 +449,18 @@ bool Frame::pollEvents(sf::Event e)
 
 		// key navigation 
 		else if (e.key.code == sf::Keyboard::Tab || e.key.code == sf::Keyboard::Down || e.key.code == sf::Keyboard::Up) {
-			if (m_navigator != -1)
-				m_navigationOrder[m_navigator]->deactivateSelection();
+			if (m_navigator != -1) {
+				if(!isMouseOverSomething() || m_navigationOrder[m_navigator]->getID() != m_mouseHoveringOn->getID())
+					m_navigationOrder[m_navigator]->deactivateSelection(); // deactivate navigated entity
+
+				// if navigated entity is inputbox and is taking input, disable input
+				if (isEntityOfType<Inputbox>(m_navigationOrder[m_navigator]) && ((Inputbox*)m_navigationOrder[m_navigator])->isInInputMode()) {
+					m_navigationOrder[m_navigator]->callAction();
+				}
+			}
+			// remove cursor of inputbox
+			else if (wasSomethingClicked() && isEntityOfType<Inputbox>(m_clicked))
+				m_clicked->callAction();
 
 			int add = 1;
 			if (e.key.code == sf::Keyboard::Up)add = -1;
@@ -408,13 +477,19 @@ bool Frame::pollEvents(sf::Event e)
 	else if (e.type == sf::Event::KeyReleased){
 		if (e.key.code == sf::Keyboard::Return){
 			// if enter is pressed trigger action on navigated entity
-			if (m_clicked != nullptr && m_navigator != -1 && m_clicked->getID() == m_navigationOrder[m_navigator]->getID()) {
-				m_clicked->deactivateSelection();
-				if(m_clicked->hasAction())m_clicked->callAction();
+			if (wasSomethingClicked() && m_navigator != -1 && *m_clicked == *m_navigationOrder[m_navigator]) {
 
-				// set clicked to null, textbox with input is exception
-				if (Entity::getClassID(*m_clicked) != GUI_ID_TEXTBOX || !((Textbox*)m_clicked)->isInputEnabled())
+				if (!isMouseOverSomething() || *m_navigationOrder[m_navigator] != *m_mouseHoveringOn)
+					m_clicked->deactivateSelection(); // deactivate navigated entity
+
+				if(m_clicked->hasAction())
+					m_clicked->callAction();
+
+				// set clicked to null, inputbox with input is exception
+				if (!isEntityOfType<Inputbox>(m_clicked)) {
 					m_clicked = nullptr;
+					m_navigator = -1;
+				}
 
 				return true; // event occurred
 			}
@@ -424,19 +499,19 @@ bool Frame::pollEvents(sf::Event e)
 	// if text is entered while textbox is selected
 	else if (e.type == sf::Event::TextEntered) {
 			if (e.text.unicode != 9 && e.text.unicode != 13 // 9 -> Tab, 13 -> Enter 
-				&& m_clicked != nullptr && Entity::getClassID(*m_clicked) == GUI_ID_TEXTBOX && ((Textbox*)m_clicked)->isInputEnabled()) {
+				&& wasSomethingClicked() && isEntityOfType<Inputbox>(m_clicked)) {
 
-			Textbox* textbox = ((Textbox*)m_clicked);
+			Inputbox* inputbox = ((Inputbox*)m_clicked);
 			
 			char c = e.text.unicode;
 			if (c == 8) { // backspace is pressed
-				std::string str(textbox->getString());
+				std::string str(inputbox->getString());
 				if (str.size() > 0) {
 					str.erase(str.size() - 1);
-					textbox->setString(str);
+					inputbox->setString(str);
 				}
 			}
-			else textbox->setString(textbox->getString() + c); // normal characters or numbers
+			else inputbox->setString(inputbox->getString() + c); // normal characters or numbers
 
 			return true; // event occurred
 		}
@@ -461,6 +536,16 @@ void Frame::draw()
 	for (auto it = m_entityMap.begin(); it != m_entityMap.end(); it++) {
 		it->second->draw(*m_window);
 	}
+}
+
+bool gui::Frame::isMouseOverSomething() const
+{
+	return m_mouseHoveringOn != nullptr;
+}
+
+bool gui::Frame::wasSomethingClicked() const
+{
+	return m_clicked != nullptr;
 }
 
 Functional::FunctionalObject Functional::getFunctionalFrame()

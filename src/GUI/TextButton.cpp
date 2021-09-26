@@ -2,6 +2,17 @@
 
 using namespace gui;
 
+TextButton::TextButton(const sf::Vector2f size, int class_id)
+	:Textbox(size, class_id)
+{
+	actionEvent = ActionEvent::RELEASE;
+
+	m_second_ScaleFactor.x = m_second_ScaleFactor.y = 1;
+	m_second_OutlineThickness = 0;
+	m_second_FillColor = sf::Color::White;
+	m_second_OutlineColor = sf::Color::White;
+}
+
 TextButton::TextButton(const sf::Vector2f& size):
 	Textbox(size, GUI_ID_TEXTBUTTON)
 {
@@ -11,6 +22,10 @@ TextButton::TextButton(const sf::Vector2f& size):
 	m_second_OutlineThickness = 0;
 	m_second_FillColor = sf::Color::White;
 	m_second_OutlineColor = sf::Color::White;
+}
+
+TextButton::~TextButton()
+{
 }
 
 void TextButton::switchProperties()
