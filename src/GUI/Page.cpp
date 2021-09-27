@@ -108,6 +108,10 @@ sf::FloatRect Page::getActiveRegion() const
 {
 	return m_activeRegion;
 }
+sf::Vector2f gui::Page::getActiveRegionPosition() const
+{
+	return {m_activeRegion.left, m_activeRegion.top};
+}
 void Page::moveActiveRegion(float offsetX, float offsetY)
 {
 	m_activeRegion.left += offsetX;
