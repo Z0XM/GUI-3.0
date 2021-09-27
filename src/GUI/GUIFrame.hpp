@@ -510,44 +510,8 @@ private:
 	static std::unordered_map<std::string, unsigned int> m_nameMap;		/// < maps from names to the gui Id of their respective entities, Single Map for all Frame objects
 };
 
-
-template <typename T>
-bool isEntityOfType(Entity* entity) {
-	return false;
-}
-template<> bool isEntityOfType<Textbox>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_TEXTBOX;
-}
-template<> bool isEntityOfType<Button>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_BUTTON;
-}
-template<> bool isEntityOfType<TextButton>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_TEXTBUTTON;
-}
-template<> bool isEntityOfType<Slider>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_SLIDER;
-}
-template<> bool isEntityOfType<Inputbox>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_INPUTBOX;
-}
-template<> bool isEntityOfType<Page>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_PAGE;
-}
-template<> bool isEntityOfType<Dropdown>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_DROPDOWN;
-}
-template<> bool isEntityOfType<Scroll>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_SCROLL;
-}
-
 } // namespace gui
 
-bool operator==(const gui::Entity& first, const gui::Entity& second)
-{
-	return first.getID() == second.getID();
-}
+bool operator==(const gui::Entity& first, const gui::Entity& second);
 
-bool operator!=(const gui::Entity& first, const gui::Entity& second)
-{
-	return first.getID() != second.getID();
-}
+bool operator!=(const gui::Entity& first, const gui::Entity& second);
