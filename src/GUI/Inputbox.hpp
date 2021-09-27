@@ -57,7 +57,7 @@ private:
 	bool m_input_mode;					/// < whether object is in input mode
 	bool m_highlighted;					/// < whether object is highlighted or not
 	mutable int m_blink_counter;		/// < blink oscillator from -blink limit to +blink limit
-	const int m_blink_limit = 40;			/// < blink time limit, total time taken by blink is 2*blink limit
+	int m_blink_limit = 40;				/// < blink time limit, total time taken by blink is 2*blink limit
 };
 
 } // namespace gui
