@@ -127,49 +127,6 @@ void gui::setFunctionalParent(Entity& entity, Functional* parent)
 	entity.setFunctionalParentForSubVariables(parent);
 }
 
-bool operator==(const Entity& first, const Entity& second)
-{
-	return first.getID() == second.getID();
-}
-
-bool operator!=(const Entity& first, const Entity& second)
-{
-	return first.getID() != second.getID();
-}
-
-
-template <typename T>
-bool isEntityOfType(Entity* entity){
-	return false;
-}
-template<> bool isEntityOfType<Textbox>(Entity* entity){
-	return Entity::getClassID(*entity) == GUI_ID_TEXTBOX;
-}
-template<> bool isEntityOfType<Button>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_BUTTON;
-}
-template<> bool isEntityOfType<TextButton>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_TEXTBUTTON;
-}
-template<> bool isEntityOfType<Slider>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_SLIDER;
-}
-template<> bool isEntityOfType<Inputbox>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_INPUTBOX;
-}
-template<> bool isEntityOfType<Page>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_PAGE;
-}
-template<> bool isEntityOfType<Dropdown>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_DROPDOWN;
-}
-template<> bool isEntityOfType<Scroll>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_SCROLL;
-}
-
-
-
-
 
 std::unordered_map<std::string, unsigned int> Frame::m_nameMap;
 
