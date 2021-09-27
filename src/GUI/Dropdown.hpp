@@ -187,6 +187,14 @@ public:
 	sf::Vector2f getSize() const;
 
 	////////////////////////////////////////////////////////////
+	/// \brief get the enitity at index
+	///
+	/// \return entity at index
+	/// 
+	////////////////////////////////////////////////////////////
+	Entity* getItemAt(int index) const;
+
+	////////////////////////////////////////////////////////////
 	/// \brief add an item to the object to the last
 	/// 
 	/// \param textbox -> textbox / TextButton object to add

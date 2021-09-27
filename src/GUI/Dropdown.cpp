@@ -158,6 +158,10 @@ sf::Vector2f Dropdown::getSize() const
 {
 	return m_header.getSize() + sf::Vector2f(0, m_page.getSize().y);
 }
+Entity* gui::Dropdown::getItemAt(int index) const
+{
+	return m_page.getByID(m_itemIDs.at(index));
+}
 void Dropdown::addItem(Textbox& textbox)
 {
 	textbox.setSize(m_itemSize);
