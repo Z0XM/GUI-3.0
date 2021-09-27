@@ -405,11 +405,11 @@ bool Frame::pollEvents(sf::Event e)
 		if(e.key.code == sf::Keyboard::Return){ 
 			
 			// if inputbox was clicked, set clicked to null 
-			if (m_navigator != -1 && wasSomethingClicked() && isEntityOfType<Inputbox>(m_clicked)) {
+			if (wasSomethingClicked() && isEntityOfType<Inputbox>(m_clicked)) {
 				m_clicked->callAction();
 
 				// clicked inputbox must not lose its highlight if it is also the navigated entity
-				if (*getNavigatedEntity() == *m_clicked)
+				if (m_navigator != -1 && *getNavigatedEntity() == *m_clicked)
 					m_clicked->activateSelection();
 
 				m_clicked = nullptr;
