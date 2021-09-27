@@ -103,6 +103,8 @@ void Page::setActiveRegion(const sf::FloatRect& region)
 	m_header.setPoint(3, sf::Vector2f(0, 15));
 	m_minimise.setPosition(m_activeRegion.width - 15, -15);
 	m_maximise.setPosition(m_activeRegion.width - 33, -15);
+
+	m_background.setTextureRect(sf::IntRect(m_activeRegion.left, m_activeRegion.top, m_background.getTextureRect().width, m_background.getTextureRect().height));
 }
 sf::FloatRect Page::getActiveRegion() const
 {
@@ -117,12 +119,14 @@ void Page::moveActiveRegion(float offsetX, float offsetY)
 	m_activeRegion.left += offsetX;
 	m_activeRegion.top += offsetY;
 	limitActiveRegion();
+	m_background.setTextureRect(sf::IntRect(m_activeRegion.left, m_activeRegion.top, m_background.getTextureRect().width, m_background.getTextureRect().height));
 }
 void Page::moveActiveRegion(const sf::Vector2f& offset)
 {
 	m_activeRegion.left += offset.x;
 	m_activeRegion.top += offset.y;
 	limitActiveRegion();
+	m_background.setTextureRect(sf::IntRect(m_activeRegion.left, m_activeRegion.top, m_background.getTextureRect().width, m_background.getTextureRect().height));
 }
 void Page::setMaxSize(const sf::Vector2f& size)
 {
