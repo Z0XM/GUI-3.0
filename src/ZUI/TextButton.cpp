@@ -1,6 +1,6 @@
 #include "TextButton.hpp"
 
-using namespace gui;
+using namespace zui;
 
 TextButton::TextButton(const sf::Vector2f size, int class_id)
 	:Textbox(size, class_id)
@@ -14,7 +14,7 @@ TextButton::TextButton(const sf::Vector2f size, int class_id)
 }
 
 TextButton::TextButton(const sf::Vector2f& size):
-	Textbox(size, GUI_ID_TEXTBUTTON)
+	Textbox(size, ZUI_ID_TEXTBUTTON)
 {
 	actionEvent = ActionEvent::RELEASE;
 	

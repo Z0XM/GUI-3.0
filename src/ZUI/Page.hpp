@@ -2,10 +2,10 @@
 #include <SFML/Graphics.hpp>
 #include "Button.hpp"
 #include "Slider.hpp"
-#include "GUIFrame.hpp"
+#include "ZUIFrame.hpp"
 #include <vector>
 
-namespace gui {
+namespace zui {
 class Scroll;
 
 class Page : public Entity, public Functional {
@@ -288,7 +288,7 @@ public:
 
 	////////////////////////////////////////////////////////////
 	/// \brief Check if the point is inside the object
-	///		   Definition of if the point is inside the object may vary with different gui objects
+	///		   Definition of if the point is inside the object may vary with different zui objects
 	/// 
 	/// \return true if point is inside the object, false otherwise
 	/// 
@@ -409,7 +409,7 @@ private:
 
 		////////////////////////////////////////////////////////////
 		/// \brief Check if the point is inside the object
-		///		   Definition of if the point is inside the object may vary with different gui objects
+		///		   Definition of if the point is inside the object may vary with different zui objects
 		/// 
 		/// \return true if point is inside the object, false otherwise
 		/// 
@@ -480,4 +480,4 @@ private:
 	sf::RectangleShape m_background;		/// < background of the page
 };
 
-} // namespace gui
+} // namespace zui

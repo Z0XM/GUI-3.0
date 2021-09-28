@@ -1,4 +1,4 @@
-#include "GUIFrame.hpp"
+#include "ZUIFrame.hpp"
 #include "Page.hpp"
 #include "Slider.hpp"
 #include "Textbox.hpp"
@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-using namespace gui;
+using namespace zui;
 
 // set the initial count to 0
 unsigned int Entity::item_count = 0;
@@ -76,11 +76,11 @@ unsigned int Entity::getClassID(const Entity& entity)
 	// get the 8 most significan bits
 	return entity.getID() >> 24;
 }
-Functional* gui::Entity::getFunctionalParent() const
+Functional* zui::Entity::getFunctionalParent() const
 {
 	return m_functionalParent;
 }
-bool gui::Entity::isSelected() const
+bool zui::Entity::isSelected() const
 {
 	return m_selected;
 }
@@ -110,7 +110,7 @@ void Entity::setAction(std::function<void()> func)
 	action = func;
 }
 
-bool gui::Entity::hasFunctionalParent() const
+bool zui::Entity::hasFunctionalParent() const
 {
 	return m_functionalParent != nullptr;
 }
@@ -120,7 +120,7 @@ void Entity::setFunctionalParentForSubVariables(Functional* parent)
 
 }
 
-void gui::setFunctionalParent(Entity& entity, Functional* parent)
+void zui::setFunctionalParent(Entity& entity, Functional* parent)
 {
 	entity.m_functionalParent = parent;
 
@@ -143,28 +143,28 @@ bool isEntityOfType(Entity* entity) {
 	return false;
 }
 template<> bool isEntityOfType<Textbox>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_TEXTBOX;
+	return Entity::getClassID(*entity) == ZUI_ID_TEXTBOX;
 }
 template<> bool isEntityOfType<Button>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_BUTTON;
+	return Entity::getClassID(*entity) == ZUI_ID_BUTTON;
 }
 template<> bool isEntityOfType<TextButton>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_TEXTBUTTON;
+	return Entity::getClassID(*entity) == ZUI_ID_TEXTBUTTON;
 }
 template<> bool isEntityOfType<Slider>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_SLIDER;
+	return Entity::getClassID(*entity) == ZUI_ID_SLIDER;
 }
 template<> bool isEntityOfType<Inputbox>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_INPUTBOX;
+	return Entity::getClassID(*entity) == ZUI_ID_INPUTBOX;
 }
 template<> bool isEntityOfType<Page>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_PAGE;
+	return Entity::getClassID(*entity) == ZUI_ID_PAGE;
 }
 template<> bool isEntityOfType<Dropdown>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_DROPDOWN;
+	return Entity::getClassID(*entity) == ZUI_ID_DROPDOWN;
 }
 template<> bool isEntityOfType<Scroll>(Entity* entity) {
-	return Entity::getClassID(*entity) == GUI_ID_SCROLL;
+	return Entity::getClassID(*entity) == ZUI_ID_SCROLL;
 }
 
 
@@ -537,27 +537,27 @@ void Frame::draw()
 	}
 }
 
-bool gui::Frame::isMouseOverSomething() const
+bool zui::Frame::isMouseOverSomething() const
 {
 	return m_mouseHoveringOn != nullptr;
 }
 
-bool gui::Frame::wasSomethingClicked() const
+bool zui::Frame::wasSomethingClicked() const
 {
 	return m_clicked != nullptr;
 }
 
-Entity* gui::Frame::getClickedEntity() const
+Entity* zui::Frame::getClickedEntity() const
 {
 	return m_clicked;
 }
 
-Entity* gui::Frame::getMouseHoveringOnWhichEntity() const
+Entity* zui::Frame::getMouseHoveringOnWhichEntity() const
 {
 	return m_mouseHoveringOn;
 }
 
-Entity* gui::Frame::getNavigatedEntity() const
+Entity* zui::Frame::getNavigatedEntity() const
 {
 	if (m_navigator == -1) return nullptr;
 	return m_navigationOrder[m_navigator];

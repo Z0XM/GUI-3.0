@@ -1,16 +1,16 @@
 #pragma once
 
-#include "GUIFrame.hpp"
+#include "ZUIFrame.hpp"
 #include <string>
 
-namespace gui {
+namespace zui {
 class Textbox : public Entity
 {
 protected:
     ////////////////////////////////////////////////////////////
     /// \brief Constructor for Children Classes
     /// 
-    /// \param class_id -> GUI Class Id of the child class
+    /// \param class_id -> ZUI Class Id of the child class
     ///
     ////////////////////////////////////////////////////////////
     Textbox(const sf::Vector2f size, int class_id);
@@ -411,7 +411,7 @@ public:
 
     ////////////////////////////////////////////////////////////
     /// \brief Check if the point is inside the object
-    ///		   Definition of if the point is inside the object may vary with different gui objects
+    ///		   Definition of if the point is inside the object may vary with different zui objects
     /// 
     /// \return true if point is inside the object, false otherwise
     /// 
@@ -461,4 +461,4 @@ protected:
     TextAlign m_alignment;          /// < alignment of text with the box
 };
 
-} // namespace gui
+} // namespace zui

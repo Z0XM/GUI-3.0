@@ -1,9 +1,9 @@
 #include "Slider.hpp"
 #include <iostream>
-using namespace gui;
+using namespace zui;
 
 Slider::Slider(const sf::Vector2f& size)
-	:Textbox(size, GUI_ID_SLIDER)
+	:Textbox(size, ZUI_ID_SLIDER)
 {
 	m_offset = 0;
 	m_variable = nullptr;

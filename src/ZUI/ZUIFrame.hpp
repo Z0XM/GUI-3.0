@@ -7,20 +7,20 @@
 #include <functional>
 #include <vector>
 
-namespace gui {
+namespace zui {
 
 ////////////////////////////////////////////////////////////
-/// GUI Class Ids 
+/// ZUI Class Ids 
 /// Used for generating entity Id, makes up for the 8 most significant bits of Id 
 ////////////////////////////////////////////////////////////
-constexpr int GUI_ID_TEXTBOX =		8;
-constexpr int GUI_ID_INPUTBOX =		7;
-constexpr int GUI_ID_SLIDER =		6;
-constexpr int GUI_ID_BUTTON =		5;
-constexpr int GUI_ID_TEXTBUTTON =	4;
-constexpr int GUI_ID_SCROLL =		3;
-constexpr int GUI_ID_DROPDOWN =		2;
-constexpr int GUI_ID_PAGE =			1; 
+constexpr int ZUI_ID_TEXTBOX =		8;
+constexpr int ZUI_ID_INPUTBOX =		7;
+constexpr int ZUI_ID_SLIDER =		6;
+constexpr int ZUI_ID_BUTTON =		5;
+constexpr int ZUI_ID_TEXTBUTTON =	4;
+constexpr int ZUI_ID_SCROLL =		3;
+constexpr int ZUI_ID_DROPDOWN =		2;
+constexpr int ZUI_ID_PAGE =			1; 
 
 class Functional {
 public:
@@ -41,7 +41,7 @@ public:
 
 	////////////////////////////////////////////////////////////
 	/// \brief Check if the point is inside the object
-	///		   Definition of if the point is inside the object may vary with different gui objects
+	///		   Definition of if the point is inside the object may vary with different zui objects
 	/// 
 	/// \return true if point is inside the object, false otherwise
 	/// 
@@ -69,8 +69,8 @@ public:
 
 	enum FunctionalObject {
 		FRAME = 0,
-		PAGE = GUI_ID_PAGE,
-		DROPDOWN = GUI_ID_DROPDOWN
+		PAGE = ZUI_ID_PAGE,
+		DROPDOWN = ZUI_ID_DROPDOWN
 	};
 
 	////////////////////////////////////////////////////////////
@@ -104,7 +104,7 @@ protected:
 	////////////////////////////////////////////////////////////
 	/// \brief Protected constructor, Sets the unique ID of the object
 	/// 
-	/// \param class_id -> Globally defined GUI CLASS IDs
+	/// \param class_id -> Globally defined ZUI CLASS IDs
 	/// 
 	////////////////////////////////////////////////////////////
 	Entity(unsigned int class_id);
@@ -153,7 +153,7 @@ public:
 
 	////////////////////////////////////////////////////////////
 	/// \brief Check if the point is inside the object
-	///		   Definition of if the point is inside the object may vary with different gui objects
+	///		   Definition of if the point is inside the object may vary with different zui objects
 	/// 
 	/// \return true if point is inside the object, false otherwise
 	/// 
@@ -409,7 +409,7 @@ public:
 
 	////////////////////////////////////////////////////////////
 	/// \brief Check if the point is inside the object
-	///		   Definition of if the point is inside the object may vary with different gui objects
+	///		   Definition of if the point is inside the object may vary with different zui objects
 	/// 
 	/// \return true if point is inside the object, false otherwise
 	/// 
@@ -503,15 +503,15 @@ private:
 	sf::Vector2f m_lastMousePos;										/// < last mouse Position on the current window
 	int m_navigator;													/// < iterator for navigation through key press
 
-	std::map<unsigned int, Entity*> m_entityMap;						/// < maps gui Ids to their respective entities
-	std::unordered_map<unsigned int, Functional*> m_functionalParents;	/// < maps gui Ids of functional parents to their respective entities (also in entityMap)
+	std::map<unsigned int, Entity*> m_entityMap;						/// < maps zui Ids to their respective entities
+	std::unordered_map<unsigned int, Functional*> m_functionalParents;	/// < maps zui Ids of functional parents to their respective entities (also in entityMap)
 	std::vector<Entity*> m_navigationOrder;								/// < key press navigation order of entities
 
-	static std::unordered_map<std::string, unsigned int> m_nameMap;		/// < maps from names to the gui Id of their respective entities, Single Map for all Frame objects
+	static std::unordered_map<std::string, unsigned int> m_nameMap;		/// < maps from names to the zui Id of their respective entities, Single Map for all Frame objects
 };
 
-} // namespace gui
+} // namespace zui
 
-bool operator==(const gui::Entity& first, const gui::Entity& second);
+bool operator==(const zui::Entity& first, const zui::Entity& second);
 
-bool operator!=(const gui::Entity& first, const gui::Entity& second);
+bool operator!=(const zui::Entity& first, const zui::Entity& second);

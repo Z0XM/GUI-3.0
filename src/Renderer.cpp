@@ -6,7 +6,7 @@ void Renderer::initWindow()
 	sf::ContextSettings settings;
 	settings.antialiasingLevel = 4;
 
-	window.create(sf::VideoMode(1500, 700), "GUI 3.0", sf::Style::Default, settings);
+	window.create(sf::VideoMode(1500, 700), "ZUI 3.0", sf::Style::Default, settings);
 	window.setFramerateLimit(60);
 }
 
@@ -97,8 +97,8 @@ Renderer::Renderer()
 	page.setMaxSize({ 1000, 1000 });
 	page.setPosition(1050, 100);
 	page.setActiveRegion({ 0,0, 400, 500 });
-	page.setScroll(gui::Page::RIGHT);
-	page.setScroll(gui::Page::BOTTOM);
+	page.setScroll(zui::Page::RIGHT);
+	page.setScroll(zui::Page::BOTTOM);
 
 	page.setHeader(true, true, true);
 
@@ -106,8 +106,8 @@ Renderer::Renderer()
 	page2.setMaxSize({ 1000, 1000 });
 	page2.setPosition(500, 500);
 	page2.setActiveRegion({ 0,0, 300, 300 });
-	page2.setScroll(gui::Page::RIGHT);
-	page2.setScroll(gui::Page::BOTTOM);
+	page2.setScroll(zui::Page::RIGHT);
+	page2.setScroll(zui::Page::BOTTOM);
 
 	page2.setHeader(true, true, true);
 
@@ -156,8 +156,8 @@ Renderer::Renderer()
 	page3.setMaxSize({ 500, 500 });
 	page3.setPosition(20, 20);
 	page3.setActiveRegion({ 0,0, 200, 200 });
-	page3.setScroll(gui::Page::RIGHT);
-	page3.setScroll(gui::Page::BOTTOM);
+	page3.setScroll(zui::Page::RIGHT);
+	page3.setScroll(zui::Page::BOTTOM);
 	page3.setHeader(true, true, true);
 
 

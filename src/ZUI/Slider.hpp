@@ -3,7 +3,7 @@
 #include "Textbox.hpp"
 #include "Button.hpp"
 
-namespace gui {
+namespace zui {
 class Slider : public Textbox {
 public:
 	////////////////////////////////////////////////////////////
@@ -114,4 +114,4 @@ private:
 	float m_limits[2];						/// < lower and upper limit of the variable
 };
 
-} // namespace gui
+} // namespace zui

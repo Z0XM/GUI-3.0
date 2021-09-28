@@ -1,9 +1,9 @@
 #include "Inputbox.hpp"
 
-using namespace gui;
+using namespace zui;
 
 Inputbox::Inputbox(const sf::Vector2f& size)
-	:TextButton(size, GUI_ID_INPUTBOX)
+	:TextButton(size, ZUI_ID_INPUTBOX)
 {
 	actionEvent = ActionEvent::RELEASE;
 

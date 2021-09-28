@@ -1,8 +1,8 @@
 #include "Button.hpp"
 
-using namespace gui;
+using namespace zui;
 Button::Button()
-	:Entity(GUI_ID_BUTTON)
+	:Entity(ZUI_ID_BUTTON)
 {
 	actionEvent = ActionEvent::RELEASE;
 
@@ -89,37 +89,37 @@ void Button::setTextureRect(const sf::IntRect& rect)
 {
 	m_shape.setTextureRect(rect);
 }
-sf::Color gui::Button::getFillColor()
+sf::Color zui::Button::getFillColor()
 {
 	if (m_selected) return m_second_FillColor;
 	else return m_shape.getFillColor();
 }
-sf::Color gui::Button::getOutlineColor()
+sf::Color zui::Button::getOutlineColor()
 {
 	if (m_selected) return m_second_OutlineColor;
 	else return m_shape.getOutlineColor();
 }
-float gui::Button::getOutlineThickness()
+float zui::Button::getOutlineThickness()
 {
 	if (m_selected) return m_second_OutlineThickness;
 	else return m_shape.getOutlineThickness();
 }
-sf::Color gui::Button::getSelectionFillColor()
+sf::Color zui::Button::getSelectionFillColor()
 {
 	if (!m_selected) return m_second_FillColor;
 	else return m_shape.getFillColor();
 }
-sf::Color gui::Button::getSelectionOutlineColor()
+sf::Color zui::Button::getSelectionOutlineColor()
 {
 	if (!m_selected) return m_second_OutlineColor;
 	else return m_shape.getOutlineColor();
 }
-float gui::Button::getSelectionOutlineThickness()
+float zui::Button::getSelectionOutlineThickness()
 {
 	if (!m_selected) return m_second_OutlineThickness;
 	else return m_shape.getOutlineThickness();
 }
-sf::Vector2f gui::Button::getSelectionScale()
+sf::Vector2f zui::Button::getSelectionScale()
 {
 	if (!m_selected) return m_second_ScaleFactor;
 	else return getScale();

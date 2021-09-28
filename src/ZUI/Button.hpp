@@ -1,7 +1,7 @@
 #pragma once
-#include "GUIFrame.hpp"
+#include "ZUIFrame.hpp"
 
-namespace gui
+namespace zui
 {
 class Button : public Entity {
 public:
@@ -262,7 +262,7 @@ public:
 
 	////////////////////////////////////////////////////////////
 	/// \brief Check if the point is inside the object
-	///		   Definition of if the point is inside the object may vary with different gui objects
+	///		   Definition of if the point is inside the object may vary with different zui objects
 	/// 
 	/// \return true if point is inside the object, false otherwise
 	/// 
@@ -327,4 +327,4 @@ private:
 	sf::ConvexShape m_shape;							/// < shape of the button
 };
 
-} // namespace gui
+} // namespace zui

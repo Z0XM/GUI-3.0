@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-using namespace gui;
+using namespace zui;
 Page::Page(const sf::Vector2f& size)
-	:Entity(GUI_ID_PAGE)
+	:Entity(ZUI_ID_PAGE)
 {
 	m_maxSize = size;
 	m_activeRegion = sf::FloatRect(0, 0, size.x, size.y);
@@ -83,7 +83,7 @@ void Page::setTextureRect(const sf::IntRect& rect)
 {
 	m_background.setTextureRect(rect);
 }
-const sf::Texture* gui::Page::getTexture() const
+const sf::Texture* zui::Page::getTexture() const
 {
 	return m_background.getTexture();;
 }
@@ -110,7 +110,7 @@ sf::FloatRect Page::getActiveRegion() const
 {
 	return m_activeRegion;
 }
-sf::Vector2f gui::Page::getActiveRegionPosition() const
+sf::Vector2f zui::Page::getActiveRegionPosition() const
 {
 	return {m_activeRegion.left, m_activeRegion.top};
 }
@@ -284,11 +284,11 @@ sf::Vector2f Page::getLastMouseOffset() const
 	
 	return transform.transformPoint(getFunctionalParent()->getLastMouseOffset());
 }
-sf::FloatRect gui::Page::getLocalBounds() const
+sf::FloatRect zui::Page::getLocalBounds() const
 {
 	return sf::FloatRect(0, 0, getSize().x, getSize().y);
 }
-sf::FloatRect gui::Page::getGlobalBounds() const
+sf::FloatRect zui::Page::getGlobalBounds() const
 {
 	return getTransform().transformRect(getLocalBounds());
 }
@@ -388,9 +388,9 @@ bool Page::pollEvents(sf::Event event)
 	bool wasEventPolled = false;
 	if (isActive()) {
 		for (int i = 0; i < m_entities.size(); i++) {
-			if (getClassID(*m_entities[i]) == GUI_ID_PAGE && m_entities[i]->contains(getMousePosition()))
+			if (getClassID(*m_entities[i]) == ZUI_ID_PAGE && m_entities[i]->contains(getMousePosition()))
 				wasEventPolled = ((Page*)m_entities[i])->pollEvents(event);
-			else if (getClassID(*m_entities[i]) == GUI_ID_DROPDOWN && ((Dropdown*)m_entities[i])->containsExcludingHeader(getMousePosition()))
+			else if (getClassID(*m_entities[i]) == ZUI_ID_DROPDOWN && ((Dropdown*)m_entities[i])->containsExcludingHeader(getMousePosition()))
 				wasEventPolled = ((Dropdown*)m_entities[i])->pollEvents(event);
 		}
 

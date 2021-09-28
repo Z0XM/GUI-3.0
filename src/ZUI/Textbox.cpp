@@ -1,6 +1,6 @@
 #include "Textbox.hpp"
 
-using namespace gui;
+using namespace zui;
 
 Textbox::Textbox(const sf::Vector2f size, int class_id)
 	:Entity(class_id)
@@ -10,7 +10,7 @@ Textbox::Textbox(const sf::Vector2f size, int class_id)
 }
 
 Textbox::Textbox(const sf::Vector2f& size):
-	Entity(GUI_ID_TEXTBOX)
+	Entity(ZUI_ID_TEXTBOX)
 {
 	m_alignment = TextAlign::CENTER;
 	setSize(size);

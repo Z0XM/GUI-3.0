@@ -1,15 +1,15 @@
 #pragma once
 
-#include "GUIFrame.hpp"
+#include "ZUIFrame.hpp"
 #include "Textbox.hpp"
 
-namespace gui {
+namespace zui {
 class TextButton : public Textbox {
 protected:
 	////////////////////////////////////////////////////////////
 	/// \brief Constructor for Children Classes
 	/// 
-	/// \param class_id -> GUI Class Id of the child class
+	/// \param class_id -> ZUI Class Id of the child class
 	///
 	////////////////////////////////////////////////////////////
 	TextButton(const sf::Vector2f size, int class_id);
@@ -132,4 +132,4 @@ private:
 	sf::Vector2f m_second_ScaleFactor;					/// < second scale factor of the shape
 };
 
-} // namespace gui
+} // namespace zui

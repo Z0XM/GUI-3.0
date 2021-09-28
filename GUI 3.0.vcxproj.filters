@@ -21,31 +21,31 @@
     <ClCompile Include="src\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\Button.cpp">
+    <ClCompile Include="src\ZUI\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\Dropdown.cpp">
+    <ClCompile Include="src\ZUI\Dropdown.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\GUIFrame.cpp">
+    <ClCompile Include="src\ZUI\ZUIFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\Page.cpp">
+    <ClCompile Include="src\ZUI\Page.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\Scroll.cpp">
+    <ClCompile Include="src\ZUI\Scroll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\Slider.cpp">
+    <ClCompile Include="src\ZUI\Slider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\Textbox.cpp">
+    <ClCompile Include="src\ZUI\Textbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\TextButton.cpp">
+    <ClCompile Include="src\ZUI\TextButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GUI\Inputbox.cpp">
+    <ClCompile Include="src\ZUI\Inputbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,31 +53,31 @@
     <ClInclude Include="src\Renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI.hpp">
+    <ClInclude Include="src\ZUI.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI\Button.hpp">
+    <ClInclude Include="src\ZUI\Button.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI\Dropdown.hpp">
+    <ClInclude Include="src\ZUI\Dropdown.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI\GUIFrame.hpp">
+    <ClInclude Include="src\ZUI\ZUIFrame.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI\Page.hpp">
+    <ClInclude Include="src\ZUI\Page.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI\Slider.hpp">
+    <ClInclude Include="src\ZUI\Slider.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI\Textbox.hpp">
+    <ClInclude Include="src\ZUI\Textbox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI\TextButton.hpp">
+    <ClInclude Include="src\ZUI\TextButton.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\GUI\Inputbox.hpp">
+    <ClInclude Include="src\ZUI\Inputbox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

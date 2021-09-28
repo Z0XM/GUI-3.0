@@ -1,9 +1,9 @@
 #include "Dropdown.hpp"
 
-using namespace gui;
+using namespace zui;
 
 Dropdown::Dropdown(const sf::Vector2f& headerSize):
-	Entity(GUI_ID_DROPDOWN)
+	Entity(ZUI_ID_DROPDOWN)
 {
 	m_itemCount = 0;
 	m_itemLimit = 3;
@@ -17,7 +17,7 @@ Dropdown::Dropdown(const sf::Vector2f& headerSize):
 
 }
 Dropdown::Dropdown(const sf::Vector2f& headerSize, float itemHeight, int itemLimit): 
-	Entity(GUI_ID_DROPDOWN)
+	Entity(ZUI_ID_DROPDOWN)
 {
 	m_itemCount = 0;
 	m_itemLimit = itemLimit;
@@ -89,7 +89,7 @@ void Dropdown::setMinimiseButtonColor(const sf::Color& color)
 	m_minimise.setFillColor(color);
 	m_minimise.setSelectionFillColor(color);
 }
-void gui::Dropdown::setMinimiseButtonOutlineColor(const sf::Color& color)
+void zui::Dropdown::setMinimiseButtonOutlineColor(const sf::Color& color)
 {
 	m_minimise.setOutlineColor(color);
 	m_minimise.setSelectionOutlineColor(color);
@@ -158,7 +158,7 @@ sf::Vector2f Dropdown::getSize() const
 {
 	return m_header.getSize() + sf::Vector2f(0, m_page.getSize().y);
 }
-Entity* gui::Dropdown::getItemAt(int index) const
+Entity* zui::Dropdown::getItemAt(int index) const
 {
 	return m_page.getByID(m_itemIDs.at(index));
 }
@@ -176,7 +176,7 @@ void Dropdown::addItem(Textbox& textbox)
 
 	m_itemIDs.push_back(textbox.getID());
 }
-void gui::Dropdown::addItem(Button& button)
+void zui::Dropdown::addItem(Button& button)
 {
 	button.setPointCount(4);
 	button.setPoint(0, { 0, 0 });
@@ -212,7 +212,7 @@ void Dropdown::insertItem(int where, Textbox& textbox)
 
 	m_itemIDs.insert(m_itemIDs.begin() + where, textbox.getID());
 }
-void gui::Dropdown::insertItem(int where, Button& button)
+void zui::Dropdown::insertItem(int where, Button& button)
 {
 	button.setPointCount(4);
 	button.setPoint(0, { 0, 0 });

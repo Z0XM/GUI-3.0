@@ -1,7 +1,7 @@
 #pragma once
 #include "TextButton.hpp"
 
-namespace gui {
+namespace zui {
 
 class Inputbox : public TextButton {
 
@@ -60,4 +60,4 @@ private:
 	int m_blink_limit = 40;				/// < blink time limit, total time taken by blink is 2*blink limit
 };
 
-} // namespace gui
+} // namespace zui

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "GUIFrame.hpp"
+#include "ZUIFrame.hpp"
 #include "Textbox.hpp"
 #include "TextButton.hpp"
 #include "Button.hpp"
 #include "Page.hpp"
 #include <vector>
 
-namespace gui {
+namespace zui {
 class Dropdown : public Entity, public Functional {
 public:
 
@@ -259,7 +259,7 @@ public:
 
 	////////////////////////////////////////////////////////////
 	/// \brief Check if the point is inside the object
-	///		   Definition of if the point is inside the object may vary with different gui objects
+	///		   Definition of if the point is inside the object may vary with different zui objects
 	/// 
 	/// \return true if point is inside the object, false otherwise
 	/// 
@@ -270,7 +270,7 @@ public:
 
 	////////////////////////////////////////////////////////////
 	/// \brief Check if the point is inside the object excluding its header
-	///		   Definition of if the point is inside the object may vary with different gui objects
+	///		   Definition of if the point is inside the object may vary with different zui objects
 	/// 
 	/// \return true if point is inside the object, false otherwise
 	/// 
@@ -347,4 +347,4 @@ private:
 	Page m_page;							/// < page to connect items
 };
 
-} // namespace gui
+} // namespace zui

@@ -1,10 +1,10 @@
 #include "Page.hpp"
 
 
-using namespace gui;
+using namespace zui;
 
 Page::Scroll::Scroll()
-	:Entity(GUI_ID_SCROLL)
+	:Entity(ZUI_ID_SCROLL)
 {
 	m_length = 0;
 	m_place = NONE;

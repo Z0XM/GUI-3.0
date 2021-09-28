@@ -152,27 +152,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\GUI\Button.cpp" />
-    <ClCompile Include="src\GUI\Dropdown.cpp" />
-    <ClCompile Include="src\GUI\GUIFrame.cpp" />
-    <ClCompile Include="src\GUI\Inputbox.cpp" />
-    <ClCompile Include="src\GUI\Page.cpp" />
-    <ClCompile Include="src\GUI\Scroll.cpp" />
-    <ClCompile Include="src\GUI\Slider.cpp" />
-    <ClCompile Include="src\GUI\Textbox.cpp" />
-    <ClCompile Include="src\GUI\TextButton.cpp" />
+    <ClCompile Include="src\ZUI\Button.cpp" />
+    <ClCompile Include="src\ZUI\Dropdown.cpp" />
+    <ClCompile Include="src\ZUI\ZUIFrame.cpp" />
+    <ClCompile Include="src\ZUI\Inputbox.cpp" />
+    <ClCompile Include="src\ZUI\Page.cpp" />
+    <ClCompile Include="src\ZUI\Scroll.cpp" />
+    <ClCompile Include="src\ZUI\Slider.cpp" />
+    <ClCompile Include="src\ZUI\Textbox.cpp" />
+    <ClCompile Include="src\ZUI\TextButton.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GUI.hpp" />
-    <ClInclude Include="src\GUI\Button.hpp" />
-    <ClInclude Include="src\GUI\Dropdown.hpp" />
-    <ClInclude Include="src\GUI\GUIFrame.hpp" />
-    <ClInclude Include="src\GUI\Inputbox.hpp" />
-    <ClInclude Include="src\GUI\Page.hpp" />
-    <ClInclude Include="src\GUI\Slider.hpp" />
-    <ClInclude Include="src\GUI\Textbox.hpp" />
-    <ClInclude Include="src\GUI\TextButton.hpp" />
+    <ClInclude Include="src\ZUI.hpp" />
+    <ClInclude Include="src\ZUI\Button.hpp" />
+    <ClInclude Include="src\ZUI\Dropdown.hpp" />
+    <ClInclude Include="src\ZUI\ZUIFrame.hpp" />
+    <ClInclude Include="src\ZUI\Inputbox.hpp" />
+    <ClInclude Include="src\ZUI\Page.hpp" />
+    <ClInclude Include="src\ZUI\Slider.hpp" />
+    <ClInclude Include="src\ZUI\Textbox.hpp" />
+    <ClInclude Include="src\ZUI\TextButton.hpp" />
     <ClInclude Include="src\Renderer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

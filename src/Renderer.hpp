@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "GUI.hpp"
+#include "ZUI.hpp"
 
 class Renderer {
 private:
@@ -10,16 +10,16 @@ private:
 
 
 	sf::Font font;
-	gui::Frame frame;
+	zui::Frame frame;
 	float val;
-	gui::Button rectB;
-	gui::TextButton button, button2, button3, dbutton1, dbutton2, dbutton3, dbutton4, dbutton5, dbutton6;
-	gui::Page page, page2, page3;
-	gui::Slider slider;
-	gui::Textbox text;
-	gui::Dropdown drop;
+	zui::Button rectB;
+	zui::TextButton button, button2, button3, dbutton1, dbutton2, dbutton3, dbutton4, dbutton5, dbutton6;
+	zui::Page page, page2, page3;
+	zui::Slider slider;
+	zui::Textbox text;
+	zui::Dropdown drop;
 
-	gui::Inputbox ibox, ibox2;
+	zui::Inputbox ibox, ibox2;
 
 	void initWindow();
 public:
