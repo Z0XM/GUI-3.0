@@ -7,7 +7,6 @@ Page::Scroll::Scroll()
 	:Entity(ZUI_ID_SCROLL)
 {
 	m_length = 0;
-	m_region_length = 0;
 	m_place = NONE;
 
 	m_rect.setPointCount(4);
