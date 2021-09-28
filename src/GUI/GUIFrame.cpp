@@ -459,16 +459,18 @@ bool Frame::pollEvents(sf::Event e)
 			else if (wasSomethingClicked() && isEntityOfType<Inputbox>(m_clicked))
 				m_clicked->callAction();
 
-			int add = 1;
-			if (e.key.code == sf::Keyboard::Up)add = -1;
+			if (!m_navigationOrder.empty()) {
+				int add = 1;
+				if (e.key.code == sf::Keyboard::Up)add = -1;
 
-			m_navigator = (m_navigator + add + m_navigationOrder.size()) % m_navigationOrder.size();
+				m_navigator = (m_navigator + add + m_navigationOrder.size()) % m_navigationOrder.size();
 
-			getNavigatedEntity()->activateSelection();
+				getNavigatedEntity()->activateSelection();
 
-			m_clicked = nullptr;
+				m_clicked = nullptr;
 
-			return true; // event occurred
+				return true; // event occurred
+			}
 		}
 	}
 	else if (e.type == sf::Event::KeyReleased){
